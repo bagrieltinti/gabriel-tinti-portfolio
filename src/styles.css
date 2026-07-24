@@ -54,9 +54,10 @@
   --destructive: oklch(0.62 0.22 27);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.75 0.15 145);
-  --brand: oklch(0.82 0.19 135);
-  --brand-glow: oklch(0.88 0.2 125);
+  --ring: oklch(0.75 0.17 55);
+  --brand: oklch(0.72 0.19 50);
+  --brand-glow: oklch(0.82 0.18 65);
+
   --gradient-brand: linear-gradient(135deg, var(--brand), var(--brand-glow));
   --gradient-radial: radial-gradient(
     ellipse at top,
