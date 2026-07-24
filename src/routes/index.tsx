@@ -8,6 +8,7 @@ import vBB from "@/assets/portfolio/caseon-bb-segasp.mp4.asset.json";
 import pBB from "@/assets/portfolio/caseon-bb-segasp.jpg.asset.json";
 import vMotion from "@/assets/portfolio/caseon-motion-tracking.mp4.asset.json";
 import pMotion from "@/assets/portfolio/caseon-motion-tracking.jpg.asset.json";
+
 import vRender from "@/assets/portfolio/caseon-render.mp4.asset.json";
 import pRender from "@/assets/portfolio/caseon-render.jpg.asset.json";
 import vNicolau from "@/assets/portfolio/caseon-tv-nicolau-verao.mp4.asset.json";
