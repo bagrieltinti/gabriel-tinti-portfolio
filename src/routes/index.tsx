@@ -84,8 +84,9 @@ const WORKS: Work[] = [
     media: { kind: "image", src: iBarulhentosF.url } },
   { title: "Camiseta · Fusca / Catequese", client: "Landi Turbina", ratio: "9:16", tag: "Estampa",
     media: { kind: "image", src: iFusca.url } },
-  { title: "Render · Peça", client: "CASE ON", ratio: "16:9", tag: "Motion",
-    media: { kind: "video", src: vRender.url, poster: pRender.url } },
+  { title: "Social · Post", client: "CASE ON", ratio: "16:9", tag: "Feed",
+    media: { kind: "image", src: iInstitucional.url } },
+
   { title: "Camiseta · SW4", client: "Landi Turbina", ratio: "1:1", tag: "Estampa",
     media: { kind: "image", src: iSw4.url } },
   { title: "Social · Post", client: "CASE ON", ratio: "1:1", tag: "Feed",
