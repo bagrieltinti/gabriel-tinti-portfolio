@@ -7,6 +7,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
+import { Mail, MessageCircle, Linkedin, ArrowUpRight, X, Play } from "lucide-react";
 
 // CASE ON — videos
 import vAcidentes from "@/assets/portfolio/caseon-acidentes-clubes.mp4.asset.json";
@@ -17,9 +18,9 @@ import vMotion from "@/assets/portfolio/caseon-motion-tracking.mp4.asset.json";
 import pMotion from "@/assets/portfolio/caseon-motion-tracking.jpg.asset.json";
 import vNicolau from "@/assets/portfolio/caseon-tv-nicolau-verao.mp4.asset.json";
 import pNicolau from "@/assets/portfolio/caseon-tv-nicolau-verao.jpg.asset.json";
-import vUntitled from "@/assets/portfolio/caseon-untitled.mp4.asset.json";
-import pUntitled from "@/assets/portfolio/caseon-untitled.jpg.asset.json";
-// CASE ON — images
+import vFreitas from "@/assets/portfolio/caseon-untitled.mp4.asset.json";
+import pFreitas from "@/assets/portfolio/caseon-untitled.jpg.asset.json";
+// Social / feed
 import iInstitucional from "@/assets/portfolio/caseon-institucional.webp.asset.json";
 import iAlinhamento from "@/assets/portfolio/caseon-alinhamento-balanceamento.webp.asset.json";
 import iSocial1 from "@/assets/portfolio/caseon-social-1.webp.asset.json";
@@ -27,28 +28,34 @@ import iSocial2 from "@/assets/portfolio/caseon-social-2.webp.asset.json";
 import iSocial3 from "@/assets/portfolio/caseon-social-3.webp.asset.json";
 import iSocial4 from "@/assets/portfolio/caseon-social-4.webp.asset.json";
 import iSocial5 from "@/assets/portfolio/caseon-social-5.webp.asset.json";
-// Landi Turbina
+// Landi Turbina — estampas
 import iBarulhentosF from "@/assets/portfolio/landi-camiseta-barulhentos-frente.webp.asset.json";
 import iBarulhentosC from "@/assets/portfolio/landi-camiseta-barulhentos-costas.webp.asset.json";
 import iSw4 from "@/assets/portfolio/landi-camiseta-sw4-costas.webp.asset.json";
 import iFusca from "@/assets/portfolio/landi-camiseta-fusca-catequese.webp.asset.json";
 import iF250F from "@/assets/portfolio/landi-camiseta-f250-frente.webp.asset.json";
 import iF250C from "@/assets/portfolio/landi-camiseta-f250-costas.webp.asset.json";
+// Perfil
+import avatar from "@/assets/gabriel-tinti.jpg.asset.json";
+
+const WHATSAPP = "https://wa.me/5514998202760";
+const EMAIL = "gabrieltintic@gmail.com";
+const LINKEDIN = "https://www.linkedin.com/in/gabriel-tinti-da-costa-670b48269/";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Gabriel Tinti — Portfólio Editorial de Direção Criativa" },
+      { title: "Gabriel Tinti — Portfólio de Edição de Vídeo e Design" },
       {
         name: "description",
         content:
-          "Portfólio editorial de Gabriel Tinti. Edição de vídeo, motion, design e direção criativa — trabalhos em 16:9, 9:16, 1:1 e 1080×1350.",
+          "Portfólio de Gabriel Tinti: VTs para TV e redes sociais, motion, peças de feed e estampas. Trabalhos para SEGASP, Super Freitas, Serginho Pneus e Landi Turbina.",
       },
       { property: "og:title", content: "Gabriel Tinti — Portfólio Editorial" },
       {
         property: "og:description",
         content:
-          "Uma seleção editorial de VTs, motion e design por Gabriel Tinti — sócio-fundador da Agência Gama.",
+          "VTs, motion, peças de feed e estampas por Gabriel Tinti — editor de vídeo e diretor criativo em Avaré, SP.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -61,8 +68,8 @@ export const Route = createFileRoute("/")({
 
 type Ratio = "16:9" | "9:16" | "1:1" | "4:5";
 type Media =
-  | { kind: "video"; src: string; poster: string }
-  | { kind: "image"; src: string };
+  | { kind: "video"; src: string; poster: string; label?: string }
+  | { kind: "image"; src: string; label?: string };
 
 type Work = {
   id: string;
@@ -72,198 +79,162 @@ type Work = {
   ratio: Ratio;
   tag: string;
   description: string;
-  media: Media;
+  media: Media[];
 };
 
-const WORKS: Work[] = [
+/* Vídeos — CASE ON */
+const VIDEOS: Work[] = [
+  {
+    id: "nicolau",
+    title: "TV Nicolau · Verão",
+    client: "CASE ON · TV Nicolau",
+    year: "2025",
+    ratio: "16:9",
+    tag: "VT de TV",
+    description:
+      "VT de ofertas para televisão, com apresentação de produtos e preços. Formato 16:9 para exibição em TV.",
+    media: [{ kind: "video", src: vNicolau.url, poster: pNicolau.url }],
+  },
   {
     id: "acidentes",
     title: "Acidentes em Clubes",
-    client: "CASE ON",
+    client: "CASE ON · SEGASP Sport",
     year: "2025",
-    ratio: "16:9",
-    tag: "VT · Social",
+    ratio: "9:16",
+    tag: "Cortes · Social",
     description:
-      "Edição narrativa com cortes rítmicos e sound design, priorizando ritmo de consumo em feed.",
-    media: { kind: "video", src: vAcidentes.url, poster: pAcidentes.url },
+      "Cortes verticais extraídos de um vídeo maior, feitos como chamada para o conteúdo completo. Formato 9:16 para redes sociais.",
+    media: [{ kind: "video", src: vAcidentes.url, poster: pAcidentes.url }],
   },
   {
     id: "bb-segasp",
     title: "Aniversário BB Segasp",
-    client: "CASE ON",
+    client: "CASE ON · SEGASP",
     year: "2025",
-    ratio: "9:16",
-    tag: "Motion · Reels",
+    ratio: "1:1",
+    tag: "Motion · Social",
     description:
-      "Peça motion vertical para redes sociais — cinética tipográfica e transições contínuas.",
-    media: { kind: "video", src: vBB.url, poster: pBB.url },
+      "Peça em 1:1 para o SEGASP parabenizando o Banco do Brasil pelo aniversário.",
+    media: [{ kind: "video", src: vBB.url, poster: pBB.url }],
   },
   {
-    id: "nicolau",
-    title: "TV Nicolau · Verão",
-    client: "CASE ON",
-    year: "2025",
-    ratio: "9:16",
-    tag: "VT · TV",
+    id: "freitas",
+    title: "Super Freitas · VT de Ofertas",
+    client: "CASE ON · Super Freitas Supermercados",
+    year: "2024",
+    ratio: "1:1",
+    tag: "VT · Ofertas",
     description:
-      "Comercial de campanha sazonal com foco em direção de arte e finalização de cor.",
-    media: { kind: "video", src: vNicolau.url, poster: pNicolau.url },
+      "VT de ofertas para o Super Freitas Supermercados, produzido pela CASE ON. Formato 1:1.",
+    media: [{ kind: "video", src: vFreitas.url, poster: pFreitas.url }],
   },
   {
     id: "motion",
     title: "Motion Tracking · Callouts",
-    client: "CASE ON",
-    year: "2024",
+    client: "Landi Turbina · Teste",
+    year: "2025",
     ratio: "16:9",
     tag: "After Effects",
     description:
-      "Callouts com rastreamento 3D e composição no After Effects para reforço de informação.",
-    media: { kind: "video", src: vMotion.url, poster: pMotion.url },
+      "Vídeo de teste com callouts e motion tracking desenvolvido para a Landi Turbina.",
+    media: [{ kind: "video", src: vMotion.url, poster: pMotion.url }],
   },
+];
+
+/* Social / feed */
+const SOCIAL: Work[] = [
   {
-    id: "untitled",
-    title: "Untitled · Cut",
-    client: "CASE ON",
+    id: "serginho-institucional",
+    title: "Serginho Pneus · Institucional",
+    client: "Freela · Serginho Pneus",
     year: "2024",
-    ratio: "9:16",
-    tag: "Reels",
+    ratio: "4:5",
+    tag: "Instagram 1080×1350",
     description:
-      "Corte experimental — exercício de ritmo, camadas de áudio e transições invisíveis.",
-    media: { kind: "video", src: vUntitled.url, poster: pUntitled.url },
+      "Peça institucional para o Serginho Pneus, oficina mecânica de Avaré-SP. Trabalho freelance em formato Instagram 1080×1350.",
+    media: [{ kind: "image", src: iInstitucional.url }],
   },
   {
-    id: "institucional",
-    title: "Institucional",
-    client: "CASE ON",
+    id: "serginho-alinhamento",
+    title: "Serginho Pneus · Alinhamento & Balanceamento",
+    client: "Freela · Serginho Pneus",
     year: "2024",
-    ratio: "1:1",
-    tag: "Design",
+    ratio: "4:5",
+    tag: "Instagram 1080×1350",
     description:
-      "Peça institucional com tratamento tipográfico editorial e paleta calibrada em Lightroom.",
-    media: { kind: "image", src: iInstitucional.url },
+      "Conteúdo de feed sobre alinhamento e balanceamento para o Serginho Pneus, oficina mecânica de Avaré-SP. Formato 1080×1350.",
+    media: [{ kind: "image", src: iAlinhamento.url }],
   },
+];
+
+const CAROUSEL: Work = {
+  id: "educoom",
+  title: "@educoom · Jornalismo & Publicidade",
+  client: "Faculdade · @educoom",
+  year: "2024",
+  ratio: "4:5",
+  tag: "Carrossel contínuo · 1080×1350",
+  description:
+    "Carrossel de cinco cards em que cada imagem se conecta à seguinte, formando uma única composição horizontal contínua no feed. Conteúdo sobre Jornalismo e Publicidade para a página @educoom, produzido na faculdade. Formato 1080×1350.",
+  media: [iSocial1, iSocial2, iSocial3, iSocial4, iSocial5].map((a) => ({
+    kind: "image" as const,
+    src: a.url,
+  })),
+};
+
+/* Estampas — camisetas (1:1) */
+const SHIRTS: Work[] = [
   {
-    id: "alinhamento",
-    title: "Alinhamento & Balanceamento",
-    client: "CASE ON",
-    year: "2024",
-    ratio: "1:1",
-    tag: "Feed",
-    description: "Post de feed com hierarquia clara e composição centralizada.",
-    media: { kind: "image", src: iAlinhamento.url },
-  },
-  {
-    id: "s1",
-    title: "Feed · Série 01",
-    client: "CASE ON",
-    year: "2024",
-    ratio: "1:1",
-    tag: "Feed",
-    description: "Peça de série editorial para grid do Instagram.",
-    media: { kind: "image", src: iSocial1.url },
-  },
-  {
-    id: "s2",
-    title: "Feed · Série 02",
-    client: "CASE ON",
-    year: "2024",
-    ratio: "1:1",
-    tag: "Feed",
-    description: "Peça de série editorial para grid do Instagram.",
-    media: { kind: "image", src: iSocial2.url },
-  },
-  {
-    id: "s3",
-    title: "Feed · Série 03",
-    client: "CASE ON",
-    year: "2024",
-    ratio: "1:1",
-    tag: "Feed",
-    description: "Peça de série editorial para grid do Instagram.",
-    media: { kind: "image", src: iSocial3.url },
-  },
-  {
-    id: "s4",
-    title: "Feed · Série 04",
-    client: "CASE ON",
-    year: "2024",
-    ratio: "1:1",
-    tag: "Feed",
-    description: "Peça de série editorial para grid do Instagram.",
-    media: { kind: "image", src: iSocial4.url },
-  },
-  {
-    id: "s5",
-    title: "Feed · Série 05",
-    client: "CASE ON",
-    year: "2024",
-    ratio: "1:1",
-    tag: "Feed",
-    description: "Peça de série editorial para grid do Instagram.",
-    media: { kind: "image", src: iSocial5.url },
-  },
-  {
-    id: "barul-f",
-    title: "Barulhentos · Frente",
+    id: "barulhentos",
+    title: "Barulhentos",
     client: "Landi Turbina",
     year: "2025",
-    ratio: "9:16",
-    tag: "Estampa",
+    ratio: "1:1",
+    tag: "Frente & Costas",
     description:
-      "Ilustração e composição tipográfica para estampa de camiseta da série Barulhentos.",
-    media: { kind: "image", src: iBarulhentosF.url },
+      "Camiseta criada para o evento da Landi Turbina. Ilustração e composição tipográfica na frente, com hierarquia tipográfica no verso.",
+    media: [
+      { kind: "image", src: iBarulhentosF.url, label: "Frente" },
+      { kind: "image", src: iBarulhentosC.url, label: "Costas" },
+    ],
   },
   {
-    id: "barul-c",
-    title: "Barulhentos · Costas",
+    id: "f250",
+    title: "F-250",
     client: "Landi Turbina",
     year: "2025",
-    ratio: "9:16",
-    tag: "Estampa",
-    description: "Verso da camiseta Barulhentos, com hierarquia tipográfica.",
-    media: { kind: "image", src: iBarulhentosC.url },
+    ratio: "1:1",
+    tag: "Frente & Costas",
+    description:
+      "Estampa da linha F-250 — frente ilustrada e verso com composição tipográfica hierarquizada.",
+    media: [
+      { kind: "image", src: iF250F.url, label: "Frente" },
+      { kind: "image", src: iF250C.url, label: "Costas" },
+    ],
   },
   {
     id: "sw4",
-    title: "SW4 · Estampa",
+    title: "SW4",
     client: "Landi Turbina",
     year: "2025",
-    ratio: "9:16",
+    ratio: "1:1",
     tag: "Estampa",
-    description: "Estampa para linha SW4 — traço técnico e composição centralizada.",
-    media: { kind: "image", src: iSw4.url },
+    description: "Estampa para a linha SW4 — traço técnico e composição centralizada.",
+    media: [{ kind: "image", src: iSw4.url, label: "Costas" }],
   },
   {
     id: "fusca",
     title: "Fusca · Catequese",
     client: "Landi Turbina",
     year: "2024",
-    ratio: "9:16",
+    ratio: "1:1",
     tag: "Estampa",
     description: "Estampa temática — ilustração vetorial e paleta terra.",
-    media: { kind: "image", src: iFusca.url },
-  },
-  {
-    id: "f250-f",
-    title: "F-250 · Frente",
-    client: "Landi Turbina",
-    year: "2025",
-    ratio: "9:16",
-    tag: "Estampa",
-    description: "Estampa da linha F-250, frente da peça.",
-    media: { kind: "image", src: iF250F.url },
-  },
-  {
-    id: "f250-c",
-    title: "F-250 · Costas",
-    client: "Landi Turbina",
-    year: "2025",
-    ratio: "9:16",
-    tag: "Estampa",
-    description: "Verso da peça F-250 — composição com hierarquia tipográfica.",
-    media: { kind: "image", src: iF250C.url },
+    media: [{ kind: "image", src: iFusca.url }],
   },
 ];
+
+const ALL_WORKS: Work[] = [...VIDEOS, ...SOCIAL, CAROUSEL, ...SHIRTS];
 
 const TIMELINE = [
   {
@@ -333,7 +304,6 @@ function useReveal<T extends HTMLElement>(threshold = 0.14) {
   return ref;
 }
 
-// Lerp-based smooth scroll indicator + expose global scroll progress as CSS var
 function useScrollProgress() {
   useEffect(() => {
     let raf = 0;
@@ -352,32 +322,25 @@ function useScrollProgress() {
   }, []);
 }
 
-// Parallax on element based on viewport position
-function useParallax<T extends HTMLElement>(strength = 0.08) {
-  const ref = useRef<T | null>(null);
+function useIsMobile() {
+  const [mobile, setMobile] = useState(false);
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    let raf = 0;
-    const update = () => {
-      const r = el.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const center = r.top + r.height / 2;
-      const delta = (center - vh / 2) / vh; // -1..1
-      el.style.setProperty("--pll", String(-delta * strength * 100));
-      raf = 0;
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [strength]);
-  return ref;
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setMobile(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return mobile;
 }
+
+/* ---------- Helpers ---------- */
+
+const aspectClass = (r: Ratio) =>
+  r === "16:9" ? "aspect-video"
+  : r === "9:16" ? "aspect-[9/16]"
+  : r === "4:5" ? "aspect-[4/5]"
+  : "aspect-square";
 
 /* ---------- Nav ---------- */
 
@@ -391,12 +354,12 @@ function Nav() {
   }, []);
   return (
     <nav
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ${
-        solid ? "w-[min(94%,780px)]" : "w-[min(94%,880px)]"
+      className={`fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-500 ${
+        solid ? "w-[min(94%,780px)]" : "w-[min(94%,900px)]"
       }`}
     >
       <div
-        className={`glass-strong rounded-full px-4 sm:px-6 py-2.5 grid grid-cols-[minmax(0,1fr)_auto] sm:flex items-center justify-between gap-3 transition-all ${
+        className={`glass-strong rounded-full pl-4 pr-2 sm:px-6 py-2 sm:py-2.5 grid grid-cols-[minmax(0,1fr)_auto] sm:flex items-center justify-between gap-3 transition-all ${
           solid ? "shadow-[var(--shadow-lift)]" : ""
         }`}
       >
@@ -404,15 +367,19 @@ function Nav() {
           Gabriel <span className="italic text-gradient">Tinti</span>
         </a>
         <div className="hidden md:flex items-center gap-7 text-[13px] text-muted-foreground">
-          <a href="#work" className="link-underline hover:text-foreground transition">Trabalhos</a>
+          <a href="#videos" className="link-underline hover:text-foreground transition">Vídeos</a>
+          <a href="#social" className="link-underline hover:text-foreground transition">Social</a>
+          <a href="#estampas" className="link-underline hover:text-foreground transition">Estampas</a>
           <a href="#journey" className="link-underline hover:text-foreground transition">Trajetória</a>
-          <a href="#contact" className="link-underline hover:text-foreground transition">Contato</a>
         </div>
         <a
-          href="https://wa.me/5500000000000"
-          className="shrink-0 text-[12px] sm:text-[13px] px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-foreground text-primary-foreground hover:bg-brand transition-colors"
+          href={WHATSAPP}
+          target="_blank"
+          rel="noreferrer"
+          className="shrink-0 inline-flex items-center gap-2 min-h-11 text-[12px] sm:text-[13px] px-4 py-2 rounded-full bg-foreground text-primary-foreground hover:bg-brand transition-colors"
         >
-          Falar
+          <MessageCircle size={15} strokeWidth={2} />
+          <span>Falar</span>
         </a>
       </div>
     </nav>
@@ -425,13 +392,13 @@ function Hero() {
   return (
     <section
       id="top"
-      className="grain relative min-h-[100svh] flex flex-col justify-end pt-32 pb-16 overflow-hidden"
+      className="grain relative min-h-[100svh] flex flex-col justify-end pt-28 pb-14 sm:pb-16 overflow-hidden"
       style={{ background: "var(--gradient-warm)" } as CSSProperties}
     >
-      <div className="mx-auto max-w-[1400px] px-6 w-full">
-        <div className="flex items-center gap-3 mb-8 text-[11px] tracking-[0.35em] uppercase text-muted-foreground">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6 w-full">
+        <div className="flex items-center gap-3 mb-6 sm:mb-8 text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-muted-foreground">
           <span className="inline-block w-8 h-px bg-foreground/30" />
-          <span>Portfólio Editorial · 2026</span>
+          <span>Editor de vídeo & diretor criativo</span>
         </div>
 
         <h1 className="font-display text-[clamp(3.2rem,13vw,14rem)] leading-[0.88] tracking-[-0.04em]">
@@ -440,18 +407,17 @@ function Hero() {
           <span className="italic font-normal text-gradient">Tinti.</span>
         </h1>
 
-        <div className="mt-14 grid md:grid-cols-[1.5fr_auto] gap-10 items-end">
-          <p className="text-[17px] md:text-xl leading-relaxed text-foreground/75 max-w-2xl font-light">
-            Diretor criativo, editor de vídeo e designer. Uma seleção editorial
-            de trabalhos em <em className="font-display italic">16:9</em>,{" "}
+        <div className="mt-10 md:mt-14 grid md:grid-cols-[1.5fr_auto] gap-8 md:gap-10 items-end">
+          <p className="text-[16px] md:text-xl leading-relaxed text-foreground/75 max-w-2xl font-light">
+            VTs para TV e redes sociais, motion, peças de feed e estampas.
+            Trabalhos em <em className="font-display italic">16:9</em>,{" "}
             <em className="font-display italic">9:16</em>,{" "}
             <em className="font-display italic">1:1</em> e{" "}
-            <em className="font-display italic">1080×1350</em> — do longo ao vertical,
-            do estático ao motion.
+            <em className="font-display italic">1080×1350</em>.
           </p>
           <a
-            href="#work"
-            className="group inline-flex items-center gap-4 text-[11px] uppercase tracking-[0.3em] text-foreground/70 hover:text-foreground transition-colors"
+            href="#videos"
+            className="group inline-flex items-center gap-4 min-h-11 text-[11px] uppercase tracking-[0.3em] text-foreground/70 hover:text-foreground transition-colors"
           >
             <span>Ver seleção</span>
             <span className="relative block w-12 h-px bg-foreground/30 overflow-hidden">
@@ -460,17 +426,11 @@ function Hero() {
           </a>
         </div>
       </div>
-
-      {/* Scroll hint */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] tracking-[0.4em] uppercase text-muted-foreground flex flex-col items-center gap-2">
-        <span>Scroll</span>
-        <span className="block w-px h-8 bg-gradient-to-b from-foreground/40 to-transparent" />
-      </div>
     </section>
   );
 }
 
-/* ---------- Marquee de disciplinas ---------- */
+/* ---------- Marquee ---------- */
 
 function DisciplineStrip() {
   const items = [
@@ -487,10 +447,10 @@ function DisciplineStrip() {
   ];
   const doubled = [...items, ...items];
   return (
-    <section className="border-y border-border/60 py-6 overflow-hidden">
-      <div className="marquee-track font-display text-2xl md:text-4xl text-foreground/70 whitespace-nowrap">
+    <section className="border-y border-border/60 py-5 sm:py-6 overflow-hidden">
+      <div className="marquee-track font-display text-xl sm:text-2xl md:text-4xl text-foreground/70 whitespace-nowrap">
         {doubled.map((s, i) => (
-          <span key={i} className="inline-flex items-center gap-12">
+          <span key={i} className="inline-flex items-center gap-8 sm:gap-12">
             <span className="italic">{s}</span>
             <span className="text-brand">✦</span>
           </span>
@@ -500,114 +460,152 @@ function DisciplineStrip() {
   );
 }
 
-/* ---------- Card de trabalho ---------- */
+/* ---------- Section header ---------- */
+
+function SectionHead({
+  kicker,
+  title,
+  italic,
+  text,
+}: {
+  kicker: string;
+  title: string;
+  italic: string;
+  text: string;
+}) {
+  return (
+    <header className="grid md:grid-cols-[auto_1fr] gap-6 md:gap-16 items-end mb-10 md:mb-20">
+      <div>
+        <p className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-3 sm:mb-4">
+          {kicker}
+        </p>
+        <h2 className="font-display text-[clamp(2.2rem,7vw,5.5rem)] leading-[0.95]">
+          {title}
+          <br />
+          <span className="italic text-gradient">{italic}</span>
+        </h2>
+      </div>
+      <p className="text-foreground/70 text-base md:text-lg leading-relaxed max-w-md md:ml-auto md:text-right font-light">
+        {text}
+      </p>
+    </header>
+  );
+}
+
+/* ---------- Card ---------- */
 
 function WorkCard({
   work,
-  size,
+  span,
   onOpen,
 }: {
   work: Work;
-  size: "sm" | "md" | "lg" | "wide";
+  span: string;
   onOpen: (id: string) => void;
 }) {
   const ref = useReveal<HTMLElement>();
-  const mediaRef = useParallax<HTMLDivElement>(0.06);
   const vRef = useRef<HTMLVideoElement | null>(null);
-
-  const aspect =
-    work.ratio === "16:9" ? "aspect-video"
-    : work.ratio === "9:16" ? "aspect-[9/16]"
-    : work.ratio === "4:5" ? "aspect-[4/5]"
-    : "aspect-square";
-
-  const colSpan =
-    size === "wide" ? "md:col-span-12"
-    : size === "lg" ? "md:col-span-8"
-    : size === "md" ? "md:col-span-6"
-    : "md:col-span-4";
+  const [face, setFace] = useState(0);
+  const isPair = work.media.length > 1;
+  const media = work.media[face];
 
   return (
-    <article
-      ref={ref}
-      className={`fade-up col-span-12 ${colSpan}`}
-    >
+    <article ref={ref} className={`fade-up ${span}`}>
       <button
         type="button"
         onClick={() => onOpen(work.id)}
         className="group block w-full text-left"
       >
-        <div className={`media-frame card-lift ${aspect}`}>
-          <div
-            ref={mediaRef}
-            className="absolute inset-0"
-            style={{ transform: "translate3d(0, calc(var(--pll,0) * 1%), 0)" }}
-          >
-            {work.media.kind === "video" ? (
-              <video
-                ref={vRef}
-                className="absolute inset-0 w-full h-full object-cover"
-                src={work.media.src}
-                poster={work.media.poster}
-                muted
-                loop
-                playsInline
-                preload="none"
-                onMouseEnter={(e) => e.currentTarget.play().catch(() => {})}
-                onMouseLeave={(e) => {
-                  e.currentTarget.pause();
-                  e.currentTarget.currentTime = 0;
-                }}
-              />
-            ) : (
-              <img
-                src={work.media.src}
-                alt={`${work.title} — ${work.client}`}
-                loading="lazy"
-                decoding="async"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            )}
-          </div>
+        <div className={`media-frame card-lift ${aspectClass(work.ratio)}`}>
+          {media.kind === "video" ? (
+            <video
+              ref={vRef}
+              className="absolute inset-0 w-full h-full object-cover"
+              src={media.src}
+              poster={media.poster}
+              muted
+              loop
+              playsInline
+              preload="none"
+              onMouseEnter={(e) => void e.currentTarget.play().catch(() => {})}
+              onMouseLeave={(e) => {
+                e.currentTarget.pause();
+                e.currentTarget.currentTime = 0;
+              }}
+            />
+          ) : (
+            <img
+              src={media.src}
+              alt={`${work.title} — ${work.client}`}
+              loading="lazy"
+              decoding="async"
+              className={`absolute inset-0 w-full h-full ${
+                work.tag.includes("Frente") || work.tag === "Estampa"
+                  ? "object-contain p-2"
+                  : "object-cover"
+              }`}
+            />
+          )}
 
-          {/* Ratio + play badges */}
           <div className="absolute top-3 left-3 flex items-center gap-2">
             <span className="font-mono-tag text-[10px] px-2 py-1 rounded-full glass text-foreground/80">
               {work.ratio}
             </span>
-            {work.media.kind === "video" && (
+            {media.kind === "video" && (
               <span className="font-mono-tag text-[10px] px-2 py-1 rounded-full glass text-foreground/80 inline-flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand" /> VT
+                <Play size={9} fill="currentColor" /> VT
               </span>
             )}
           </div>
 
-          {/* Glass info panel on hover */}
-          <div className="absolute inset-x-3 bottom-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+          {isPair && (
+            <div
+              className="absolute top-3 right-3 flex items-center gap-1 glass rounded-full p-1"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {work.media.map((m, i) => (
+                <span
+                  key={i}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setFace(i)}
+                  onKeyDown={(e) => e.key === "Enter" && setFace(i)}
+                  className={`font-mono-tag text-[10px] px-2.5 py-1.5 rounded-full transition-colors cursor-pointer ${
+                    face === i
+                      ? "bg-foreground text-primary-foreground"
+                      : "text-foreground/70 hover:text-foreground"
+                  }`}
+                >
+                  {m.label ?? i + 1}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <div className="absolute inset-x-3 bottom-3 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 transition-all duration-500">
             <div className="glass rounded-2xl px-4 py-3 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
               <div className="min-w-0">
-                <p className="font-display text-lg leading-tight truncate">{work.title}</p>
-                <p className="text-[11px] text-muted-foreground uppercase tracking-widest">
+                <p className="font-display text-base sm:text-lg leading-tight truncate">
+                  {work.title}
+                </p>
+                <p className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest truncate">
                   {work.client} · {work.year}
                 </p>
               </div>
               <span className="shrink-0 grid place-items-center w-9 h-9 rounded-full bg-foreground text-primary-foreground">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M7 17L17 7M9 7h8v8" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <ArrowUpRight size={15} />
               </span>
             </div>
           </div>
         </div>
 
-        {/* Meta strip below */}
-        <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-baseline">
+        <div className="mt-3 sm:mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-3 items-baseline">
           <div className="min-w-0">
-            <h3 className="font-display text-xl md:text-2xl leading-tight truncate">
+            <h3 className="font-display text-lg md:text-2xl leading-tight truncate">
               {work.title}
             </h3>
             <p className="text-[12px] text-muted-foreground mt-0.5 truncate">
-              {work.client} · <span className="font-mono-tag">{work.tag}</span>
+              <span className="font-mono-tag">{work.tag}</span>
             </p>
           </div>
           <span className="font-mono-tag text-[11px] text-muted-foreground shrink-0">
@@ -619,40 +617,28 @@ function WorkCard({
   );
 }
 
-/* ---------- Grid de trabalhos ---------- */
+/* ---------- Seções ---------- */
 
-function Works({ onOpen }: { onOpen: (id: string) => void }) {
-  // Asymmetric editorial rhythm
-  const layout: Array<"sm" | "md" | "lg" | "wide"> = [
-    "lg", "md", "md", "sm", "sm", "md",
-    "wide",
-    "md", "md", "sm", "sm", "sm", "sm",
-    "lg", "md",
-    "sm", "sm", "sm",
+function VideosSection({ onOpen }: { onOpen: (id: string) => void }) {
+  const spans = [
+    "col-span-12 md:col-span-8",
+    "col-span-6 md:col-span-4",
+    "col-span-6 md:col-span-4",
+    "col-span-6 md:col-span-4",
+    "col-span-12 md:col-span-4",
   ];
-
   return (
-    <section id="work" className="py-24 md:py-36">
-      <div className="mx-auto max-w-[1400px] px-6">
-        <header className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-16 items-end mb-16 md:mb-24">
-          <div>
-            <p className="text-[11px] tracking-[0.35em] uppercase text-muted-foreground mb-4">
-              § 01 · Seleção
-            </p>
-            <h2 className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[0.95]">
-              Trabalhos<br />
-              <span className="italic text-gradient">selecionados</span>
-            </h2>
-          </div>
-          <p className="text-foreground/70 text-lg leading-relaxed max-w-md md:ml-auto md:text-right font-light">
-            Uma amostra editorial do que produzo — VTs, motion, cortes verticais,
-            peças estáticas e estampas — para marcas, canais e séries.
-          </p>
-        </header>
-
-        <div className="grid grid-cols-12 gap-4 md:gap-6">
-          {WORKS.map((w, i) => (
-            <WorkCard key={w.id} work={w} size={layout[i % layout.length]} onOpen={onOpen} />
+    <section id="videos" className="py-16 sm:py-24 md:py-32">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
+        <SectionHead
+          kicker="Vídeo & Motion"
+          title="VTs e"
+          italic="movimento"
+          text="Comerciais para TV, cortes verticais para redes sociais, peças em 1:1 e experimentos de motion tracking."
+        />
+        <div className="grid grid-cols-12 gap-3 sm:gap-5 md:gap-6">
+          {VIDEOS.map((w, i) => (
+            <WorkCard key={w.id} work={w} span={spans[i] ?? "col-span-6 md:col-span-4"} onOpen={onOpen} />
           ))}
         </div>
       </div>
@@ -660,7 +646,103 @@ function Works({ onOpen }: { onOpen: (id: string) => void }) {
   );
 }
 
-/* ---------- Timeline com linha desenhada ---------- */
+function SocialSection({ onOpen }: { onOpen: (id: string) => void }) {
+  return (
+    <section id="social" className="py-16 sm:py-24 md:py-32 border-t border-border/60">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
+        <SectionHead
+          kicker="Social & Feed"
+          title="Peças de"
+          italic="feed"
+          text="Conteúdos em 1080×1350 para Instagram — institucionais, informativos e carrosséis contínuos."
+        />
+        <div className="grid grid-cols-12 gap-3 sm:gap-5 md:gap-6">
+          {SOCIAL.map((w) => (
+            <WorkCard key={w.id} work={w} span="col-span-6 md:col-span-4" onOpen={onOpen} />
+          ))}
+        </div>
+        <CarouselShowcase onOpen={onOpen} />
+      </div>
+    </section>
+  );
+}
+
+function CarouselShowcase({ onOpen }: { onOpen: (id: string) => void }) {
+  const ref = useReveal<HTMLDivElement>(0.1);
+  return (
+    <div ref={ref} className="fade-up mt-12 md:mt-20">
+      <div className="grid md:grid-cols-[minmax(0,1fr)_auto] gap-4 md:gap-10 items-end mb-5">
+        <div className="min-w-0">
+          <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mb-2">
+            Carrossel contínuo · @educoom
+          </p>
+          <h3 className="font-display text-2xl md:text-4xl leading-tight">
+            Jornalismo & <span className="italic text-gradient">Publicidade</span>
+          </h3>
+          <p className="mt-3 text-foreground/70 font-light max-w-2xl text-sm md:text-base">
+            Cinco cards 1080×1350 desenhados como uma única imagem horizontal — ao
+            deslizar, as peças se conectam sem vinco entre elas.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => onOpen(CAROUSEL.id)}
+          className="shrink-0 inline-flex items-center gap-2 min-h-11 px-5 py-2.5 rounded-full glass text-[11px] uppercase tracking-[0.25em] hover:bg-white transition-colors"
+        >
+          Ampliar <ArrowUpRight size={14} />
+        </button>
+      </div>
+
+      <div className="media-frame">
+        <div className="overflow-x-auto overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex w-max">
+            {CAROUSEL.media.map((m, i) => (
+              <img
+                key={i}
+                src={m.src}
+                alt={`Carrossel @educoom — card ${i + 1}`}
+                loading="lazy"
+                decoding="async"
+                className="block h-[46vw] max-h-[540px] w-auto md:h-[420px] select-none"
+                draggable={false}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <p className="mt-3 font-mono-tag text-[11px] text-muted-foreground">
+        Arraste para o lado · 5 cards · 1080×1350
+      </p>
+    </div>
+  );
+}
+
+function ShirtsSection({ onOpen }: { onOpen: (id: string) => void }) {
+  return (
+    <section id="estampas" className="py-16 sm:py-24 md:py-32 border-t border-border/60">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
+        <SectionHead
+          kicker="Landi Turbina"
+          title="Estampas de"
+          italic="camiseta"
+          text="Ilustração, tipografia e composição para linhas de camisetas — algumas com frente e costas pensadas em conjunto."
+        />
+        <div className="grid grid-cols-12 gap-3 sm:gap-5 md:gap-6">
+          {SHIRTS.map((w) => (
+            <WorkCard
+              key={w.id}
+              work={w}
+              span="col-span-6 md:col-span-3"
+              onOpen={onOpen}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Timeline ---------- */
 
 function Journey() {
   const wrapRef = useRef<HTMLDivElement | null>(null);
@@ -691,29 +773,20 @@ function Journey() {
   }, []);
 
   return (
-    <section id="journey" className="py-24 md:py-36 border-t border-border/60">
-      <div className="mx-auto max-w-[1400px] px-6">
-        <header className="mb-16 md:mb-24 max-w-3xl">
-          <p className="text-[11px] tracking-[0.35em] uppercase text-muted-foreground mb-4">
-            § 02 · Trajetória
+    <section id="journey" className="py-16 sm:py-24 md:py-32 border-t border-border/60">
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-6">
+        <header className="mb-12 md:mb-20 max-w-3xl">
+          <p className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-3">
+            Trajetória
           </p>
-          <h2 className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[0.95]">
+          <h2 className="font-display text-[clamp(2.2rem,7vw,5.5rem)] leading-[0.95]">
             De estagiário<br />à <span className="italic text-gradient">sócio-fundador</span>.
           </h2>
-          <p className="mt-8 text-foreground/70 text-lg leading-relaxed font-light">
-            Quatro anos entre agência, indústria e criação autoral — capítulos de uma
-            trajetória que hoje se concentra em direção criativa e edição de vídeo.
-          </p>
         </header>
 
-        <div ref={wrapRef} className="relative pl-8 md:pl-0">
-          {/* Line: mobile → left margin, desktop → center */}
-          <div
-            ref={trackRef}
-            className="tl-track left-2 md:left-1/2 md:-translate-x-1/2"
-          />
-
-          <ol className="space-y-14 md:space-y-24">
+        <div ref={wrapRef} className="relative pl-7 md:pl-0">
+          <div ref={trackRef} className="tl-track left-1 md:left-1/2 md:-translate-x-1/2" />
+          <ol className="space-y-10 md:space-y-24">
             {TIMELINE.map((t, i) => (
               <JourneyItem key={i} item={t} index={i} />
             ))}
@@ -736,27 +809,26 @@ function JourneyItem({
 
   return (
     <li ref={ref} className="fade-up relative">
-      {/* Node */}
-      <span className="absolute left-2 md:left-1/2 top-2 -translate-x-1/2 z-10">
-        <span className="block w-3.5 h-3.5 rounded-full bg-brand shadow-[0_0_0_6px_color-mix(in_oklab,var(--brand)_18%,transparent)]" />
+      <span className="absolute left-1 md:left-1/2 top-3 -translate-x-1/2 z-10">
+        <span className="block w-3 h-3 rounded-full bg-brand shadow-[0_0_0_6px_color-mix(in_oklab,var(--brand)_18%,transparent)]" />
       </span>
 
       <div
-        className={`pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 ${
+        className={`pl-6 md:pl-0 md:grid md:grid-cols-2 md:gap-16 ${
           isLeft ? "" : "md:[&>*:first-child]:col-start-2"
         }`}
       >
         <div className={`${isLeft ? "md:pr-16 md:text-right" : "md:pl-16"}`}>
-          <div className="glass rounded-2xl p-6 md:p-8 card-lift">
-            <p className="font-mono-tag text-[11px] uppercase tracking-widest text-muted-foreground">
+          <div className="glass rounded-2xl p-5 md:p-8 card-lift">
+            <p className="font-mono-tag text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground">
               {item.period}
             </p>
-            <h3 className="font-display text-2xl md:text-4xl mt-2 leading-tight">
+            <h3 className="font-display text-xl md:text-4xl mt-2 leading-tight">
               {item.role}
             </h3>
             <p className="text-sm text-foreground/60 mt-1">{item.org}</p>
             <blockquote
-              className={`mt-5 font-display italic text-lg md:text-xl leading-[1.55] text-foreground/85 relative ${
+              className={`mt-4 font-display italic text-base md:text-xl leading-[1.55] text-foreground/85 ${
                 isLeft ? "md:border-r-2 md:pr-4" : "md:border-l-2 md:pl-4"
               } border-brand/50`}
             >
@@ -774,34 +846,49 @@ function JourneyItem({
 function About() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section className="py-24 md:py-32 border-t border-border/60">
-      <div ref={ref} className="fade-up mx-auto max-w-[1400px] px-6 grid md:grid-cols-[auto_1fr] gap-12 md:gap-20 items-start">
-        <div className="flex md:block gap-6 items-start">
+    <section className="py-16 sm:py-24 md:py-32 border-t border-border/60">
+      <div
+        ref={ref}
+        className="fade-up mx-auto max-w-[1400px] px-5 sm:px-6 grid md:grid-cols-[auto_1fr] gap-8 md:gap-20 items-start"
+      >
+        <div className="flex md:block gap-5 items-center">
           <div className="relative shrink-0">
-            <div className="w-24 h-24 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-accent to-secondary border border-border shadow-[var(--shadow-float)] grid place-items-center overflow-hidden">
-              <span className="font-display text-4xl md:text-6xl text-foreground/40">GT</span>
-            </div>
-            <span className="absolute -bottom-1 -right-1 w-6 h-6 md:w-8 md:h-8 rounded-full bg-brand border-4 border-background" />
+            <img
+              src={avatar.url}
+              alt="Retrato de Gabriel Tinti"
+              loading="lazy"
+              decoding="async"
+              className="w-24 h-24 md:w-44 md:h-44 rounded-full object-cover border border-border shadow-[var(--shadow-float)]"
+            />
+            <span className="absolute -bottom-1 -right-1 w-5 h-5 md:w-7 md:h-7 rounded-full bg-brand border-4 border-background" />
           </div>
-          <div className="md:mt-6">
+          <div className="md:mt-6 min-w-0">
             <p className="font-display text-2xl md:text-3xl">Gabriel Tinti</p>
             <p className="text-sm text-muted-foreground">Avaré, São Paulo · Brasil</p>
+            <a
+              href={LINKEDIN}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-flex items-center gap-2 text-[13px] text-foreground/70 hover:text-brand transition-colors"
+            >
+              <Linkedin size={15} /> LinkedIn
+            </a>
           </div>
         </div>
 
         <div>
-          <p className="text-[11px] tracking-[0.35em] uppercase text-muted-foreground mb-4">
-            § 03 · Sobre
+          <p className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-3">
+            Sobre
           </p>
-          <p className="font-display text-3xl md:text-5xl leading-[1.15] text-foreground/90">
+          <p className="font-display text-2xl md:text-5xl leading-[1.15] text-foreground/90">
             Faço vídeo como quem escreve um parágrafo —{" "}
             <span className="italic text-gradient">ritmo, hierarquia e respiro</span>{" "}
             em cada corte.
           </p>
-          <p className="mt-8 text-foreground/70 text-lg leading-relaxed font-light max-w-2xl">
+          <p className="mt-6 md:mt-8 text-foreground/70 text-base md:text-lg leading-relaxed font-light max-w-2xl">
             Trabalho na intersecção entre edição, motion e design. Uso a suíte
-            Adobe completa e programo quando o problema pede software.
-            Como sócio-fundador da Agência Gama, dirijo criação e resultado.
+            Adobe completa e programo quando o problema pede software. Como
+            sócio-fundador da Agência Gama, dirijo criação e resultado.
           </p>
         </div>
       </div>
@@ -812,35 +899,55 @@ function About() {
 /* ---------- Contato ---------- */
 
 function Contact() {
+  const ref = useReveal<HTMLDivElement>();
   return (
     <section
       id="contact"
-      className="grain relative py-32 md:py-48 border-t border-border/60 overflow-hidden"
+      className="py-20 sm:py-28 md:py-36 border-t border-border/60 grain"
       style={{ background: "var(--gradient-warm)" } as CSSProperties}
     >
-      <div className="mx-auto max-w-[1400px] px-6 text-center">
-        <p className="text-[11px] tracking-[0.35em] uppercase text-muted-foreground mb-8">
-          § 04 · Vamos criar
+      <div ref={ref} className="fade-up mx-auto max-w-[1400px] px-5 sm:px-6 text-center">
+        <p className="text-[10px] sm:text-[11px] tracking-[0.3em] uppercase text-muted-foreground mb-4">
+          Contato
         </p>
-        <h2 className="font-display text-[clamp(3rem,11vw,10rem)] leading-[0.9] tracking-[-0.03em]">
-          Tem um<br />
-          <span className="italic text-gradient">projeto</span> em mente?
+        <h2 className="font-display text-[clamp(2.2rem,8vw,6rem)] leading-[0.95]">
+          Vamos criar<br />
+          <span className="italic text-gradient">algo juntos</span>.
         </h2>
-        <div className="mt-14 flex flex-wrap justify-center gap-4">
+
+        <div className="mt-10 md:mt-14 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center max-w-md sm:max-w-none mx-auto">
           <a
-            href="https://wa.me/5500000000000"
-            className="px-8 py-4 rounded-full bg-foreground text-primary-foreground text-[12px] uppercase tracking-[0.3em] hover:bg-brand transition-colors"
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-3 min-h-13 px-7 py-4 rounded-full bg-foreground text-primary-foreground text-[12px] uppercase tracking-[0.25em] hover:bg-brand transition-colors"
           >
+            <MessageCircle size={17} />
             Chamar no WhatsApp
           </a>
           <a
-            href="mailto:contato@agenciagama.com"
-            className="px-8 py-4 rounded-full glass text-[12px] uppercase tracking-[0.3em] text-foreground hover:bg-white transition-colors"
+            href={`mailto:${EMAIL}`}
+            className="inline-flex items-center justify-center gap-3 min-h-13 px-7 py-4 rounded-full glass text-[12px] uppercase tracking-[0.25em] text-foreground hover:bg-white transition-colors"
           >
+            <Mail size={17} />
             Enviar e-mail
           </a>
+          <a
+            href={LINKEDIN}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-3 min-h-13 px-7 py-4 rounded-full glass text-[12px] uppercase tracking-[0.25em] text-foreground hover:bg-white transition-colors"
+          >
+            <Linkedin size={17} />
+            LinkedIn
+          </a>
         </div>
-        <p className="mt-20 text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+
+        <p className="mt-8 font-mono-tag text-[13px] text-muted-foreground">
+          (14) 99820-2760 · {EMAIL}
+        </p>
+
+        <p className="mt-16 text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
           © {new Date().getFullYear()} · Gabriel Tinti · Agência Gama Comunicação
         </p>
       </div>
@@ -848,15 +955,14 @@ function Contact() {
   );
 }
 
-/* ---------- Theater modal (FLIP-ish) ---------- */
+/* ---------- Theater modal ---------- */
 
-function Theater({
-  work,
-  onClose,
-}: {
-  work: Work | null;
-  onClose: () => void;
-}) {
+function Theater({ work, onClose }: { work: Work | null; onClose: () => void }) {
+  const isMobile = useIsMobile();
+  const [face, setFace] = useState(0);
+
+  useEffect(() => setFace(0), [work?.id]);
+
   useEffect(() => {
     if (!work) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -871,49 +977,68 @@ function Theater({
 
   if (!work) return null;
 
+  const isStrip = work.id === CAROUSEL.id;
+  const media = work.media[face] ?? work.media[0];
   const frameAspect =
-    work.ratio === "16:9" ? "aspect-video max-w-[92vw] md:max-w-[80vw]"
-    : work.ratio === "9:16" ? "aspect-[9/16] max-h-[85vh] max-w-[min(92vw,50vh)]"
-    : work.ratio === "4:5" ? "aspect-[4/5] max-h-[85vh]"
-    : "aspect-square max-w-[min(92vw,70vh)]";
+    work.ratio === "16:9" ? "aspect-video max-w-[92vw] md:max-w-[76vw]"
+    : work.ratio === "9:16" ? "aspect-[9/16] max-h-[70vh] md:max-h-[80vh] max-w-[min(92vw,45vh)] md:max-w-[min(92vw,50vh)]"
+    : work.ratio === "4:5" ? "aspect-[4/5] max-h-[70vh] md:max-h-[80vh] max-w-[min(92vw,60vh)]"
+    : "aspect-square max-w-[min(92vw,62vh)]";
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-10 backdrop-in"
-      style={{ background: "color-mix(in oklab, var(--paper) 60%, transparent)" }}
+      className="fixed inset-0 z-[60] overflow-y-auto flex items-start md:items-center justify-center p-4 md:p-10 backdrop-in"
+      style={{ background: "color-mix(in oklab, var(--paper) 62%, transparent)" }}
       onClick={onClose}
       role="dialog"
       aria-modal="true"
     >
       <div
-        className="modal-in relative w-full max-w-6xl grid md:grid-cols-[1fr_320px] gap-6 md:gap-10 items-center"
+        className={`modal-in relative w-full ${isStrip ? "max-w-6xl" : "max-w-6xl md:grid md:grid-cols-[1fr_320px]"} gap-6 md:gap-10 items-center my-auto`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className={`media-frame mx-auto w-full ${frameAspect}`}>
-          {work.media.kind === "video" ? (
-            <video
-              className="absolute inset-0 w-full h-full object-contain bg-black/5"
-              src={work.media.src}
-              poster={work.media.poster}
-              controls
-              autoPlay
-              loop
-              playsInline
-            />
-          ) : (
-            <img
-              src={work.media.src}
-              alt={`${work.title} — ${work.client}`}
-              className="absolute inset-0 w-full h-full object-contain"
-            />
-          )}
-        </div>
+        {isStrip ? (
+          <div className="media-frame">
+            <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex w-max">
+                {work.media.map((m, i) => (
+                  <img
+                    key={i}
+                    src={m.src}
+                    alt={`${work.title} — card ${i + 1}`}
+                    className="block h-[52vh] w-auto"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className={`media-frame mx-auto w-full ${frameAspect}`}>
+            {media.kind === "video" ? (
+              <video
+                className="absolute inset-0 w-full h-full object-contain bg-black/5"
+                src={media.src}
+                poster={media.poster}
+                controls
+                autoPlay
+                loop
+                playsInline
+              />
+            ) : (
+              <img
+                src={media.src}
+                alt={`${work.title} — ${work.client}`}
+                className="absolute inset-0 w-full h-full object-contain"
+              />
+            )}
+          </div>
+        )}
 
-        <aside className="glass-strong rounded-2xl p-6 md:p-7">
+        <aside className={`glass-strong rounded-2xl p-5 md:p-7 mt-4 md:mt-0 ${isStrip ? "md:mt-6" : ""}`}>
           <p className="font-mono-tag text-[10px] uppercase tracking-widest text-muted-foreground">
             {work.client} · {work.year}
           </p>
-          <h3 className="font-display text-3xl md:text-4xl mt-2 leading-tight">
+          <h3 className="font-display text-2xl md:text-4xl mt-2 leading-tight">
             {work.title}
           </h3>
           <div className="mt-4 flex gap-2 flex-wrap">
@@ -924,32 +1049,51 @@ function Theater({
               {work.tag}
             </span>
           </div>
-          <p className="mt-5 text-[15px] leading-relaxed text-foreground/75 font-light">
+          <p className="mt-4 text-[15px] leading-relaxed text-foreground/75 font-light">
             {work.description}
           </p>
+
+          {!isStrip && work.media.length > 1 && (
+            <div className="mt-5 flex gap-2">
+              {work.media.map((m, i) => (
+                <button
+                  key={i}
+                  onClick={() => setFace(i)}
+                  className={`flex-1 min-h-11 text-[11px] uppercase tracking-[0.2em] rounded-full transition-colors ${
+                    face === i
+                      ? "bg-foreground text-primary-foreground"
+                      : "bg-foreground/5 text-foreground/70"
+                  }`}
+                >
+                  {m.label ?? `0${i + 1}`}
+                </button>
+              ))}
+            </div>
+          )}
+
           <button
             onClick={onClose}
-            className="mt-6 w-full text-[11px] uppercase tracking-[0.3em] px-4 py-3 rounded-full bg-foreground text-primary-foreground hover:bg-brand transition-colors"
+            className="mt-5 w-full min-h-12 text-[11px] uppercase tracking-[0.3em] px-4 py-3 rounded-full bg-foreground text-primary-foreground hover:bg-brand transition-colors"
           >
             Fechar
           </button>
         </aside>
 
-        <button
-          onClick={onClose}
-          aria-label="Fechar"
-          className="absolute -top-3 -right-3 md:top-4 md:right-4 grid place-items-center w-10 h-10 rounded-full glass-strong text-foreground hover:bg-white transition"
-        >
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2">
-            <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />
-          </svg>
-        </button>
+        {!isMobile && (
+          <button
+            onClick={onClose}
+            aria-label="Fechar"
+            className="absolute top-4 right-4 grid place-items-center w-11 h-11 rounded-full glass-strong text-foreground hover:bg-white transition"
+          >
+            <X size={17} />
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
-/* ---------- FAB WhatsApp ---------- */
+/* ---------- FAB ---------- */
 
 function WhatsAppFab() {
   const [pulse, setPulse] = useState(false);
@@ -962,7 +1106,9 @@ function WhatsAppFab() {
   }, []);
   return (
     <a
-      href="https://wa.me/5500000000000"
+      href={WHATSAPP}
+      target="_blank"
+      rel="noreferrer"
       aria-label="Falar no WhatsApp"
       className={`fixed bottom-5 right-5 z-50 grid place-items-center w-14 h-14 rounded-full bg-brand text-primary-foreground shadow-[var(--shadow-glow)] hover:scale-105 transition-transform ${pulse ? "fab-pulse" : ""}`}
     >
@@ -990,7 +1136,7 @@ function Portfolio() {
   useScrollProgress();
   const [openId, setOpenId] = useState<string | null>(null);
   const openWork = useMemo(
-    () => WORKS.find((w) => w.id === openId) ?? null,
+    () => ALL_WORKS.find((w) => w.id === openId) ?? null,
     [openId],
   );
   const handleOpen = useCallback((id: string) => setOpenId(id), []);
@@ -1002,7 +1148,9 @@ function Portfolio() {
       <Nav />
       <Hero />
       <DisciplineStrip />
-      <Works onOpen={handleOpen} />
+      <VideosSection onOpen={handleOpen} />
+      <SocialSection onOpen={handleOpen} />
+      <ShirtsSection onOpen={handleOpen} />
       <Journey />
       <About />
       <Contact />
