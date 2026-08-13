@@ -3,6 +3,7 @@ import {
   ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
   ArrowUpRight,
   Check,
   ChevronRight,
@@ -13,7 +14,15 @@ import {
   Play,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 
 const WHATSAPP = "https://wa.me/5514998202760";
 const EMAIL = "gabrieltintic@gmail.com";
@@ -27,12 +36,12 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Portfólio de Gabriel Tinti: edição de vídeo, motion, direção criativa e design para marcas, TV e redes sociais.",
+          "Portfólio de Gabriel Tinti. Edição, motion e design para marcas, produtos e campanhas que precisam comunicar com clareza.",
       },
       { property: "og:title", content: "Gabriel Tinti — Audiovisual & Design" },
       {
         property: "og:description",
-        content: "Edição, motion e design com ritmo, intenção e acabamento.",
+        content: "Direção criativa, edição e design com foco em clareza, ritmo e entrega.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -199,7 +208,7 @@ const CAROUSEL: Work = {
 const SHIRTS: Work[] = [
   {
     id: "barulhentos",
-    title: "Barulhentos",
+    title: "Os Barulhentos",
     client: "Landi Turbina",
     year: "2025",
     ratio: "1:1",
@@ -243,7 +252,7 @@ const SHIRTS: Work[] = [
   },
   {
     id: "fusca",
-    title: "Fusca · Catequese",
+    title: "Fusca",
     client: "Landi Turbina",
     year: "2024",
     ratio: "1:1",
@@ -356,7 +365,10 @@ function Nav() {
   return (
     <header className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
       <a className="nav-mark" href="#top" aria-label="Voltar ao início">
-        GT<span>.</span>
+        <span className="nav-icon" aria-hidden="true">
+          <i />
+          <i />
+        </span>
       </a>
       <nav className={`nav-links ${menuOpen ? "is-open" : ""}`} aria-label="Navegação principal">
         {links.map(([label, href]) => (
@@ -395,24 +407,39 @@ function Hero() {
           <em>Tinti.</em>
         </h1>
         <p className="hero-lede">
-          Edição, motion e design para transformar informação em ritmo — do briefing ao último
-          frame.
+          Direção, edição e design para marcas que precisam <strong>comunicar melhor.</strong>
         </p>
         <a className="text-link" href="#trabalhos">
           Ver trabalhos <ArrowDown size={16} />
         </a>
       </div>
-      <div className="hero-portrait-wrap">
-        <div className="hero-portrait">
-          <img src={asset("gabriel-tinti.jpg")} alt="Retrato de Gabriel Tinti" />
-          <span className="portrait-stamp">
-            criativo
-            <br />
-            desde 2022
-          </span>
+      <div className="hero-brief">
+        <div className="hero-brief-top">
+          <span>Como posso ajudar</span>
+          <span>01 / 03</span>
+        </div>
+        <p className="hero-brief-lede">
+          A partir do objetivo, organizo a <strong>mensagem</strong>, o formato e a entrega.
+        </p>
+        <div className="hero-facts">
+          <div>
+            <span>01</span>
+            <strong>Clareza</strong>
+            <p>Uma ideia que chega rápido.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <strong>Execução</strong>
+            <p>Arquivo pronto para ir ao ar.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <strong>Consistência</strong>
+            <p>Peças que conversam entre si.</p>
+          </div>
         </div>
         <div className="hero-side-note">
-          <span>scroll</span>
+          <span>role para explorar</span>
           <i />
         </div>
       </div>
@@ -459,7 +486,7 @@ function SectionIntro({
   label: string;
   title: string;
   emphasis: string;
-  text: string;
+  text: ReactNode;
 }) {
   return (
     <header className="section-intro">
@@ -595,7 +622,12 @@ function VideosSection({ onOpen }: { onOpen: (id: string) => void }) {
         label="Seleção de trabalhos"
         title="Imagem em"
         emphasis="movimento."
-        text="Peças para TV, social e experiências de motion — cada formato pede uma decisão diferente de ritmo, corte e silêncio."
+        text={
+          <>
+            <strong>Edição, motion e direção</strong> para TV, social e conteúdo de marca. Cada peça
+            parte do objetivo, do canal e do tempo disponível.
+          </>
+        }
       />
       <div className="video-grid">
         {VIDEOS.map((work, index) => (
@@ -612,9 +644,10 @@ function VideosSection({ onOpen }: { onOpen: (id: string) => void }) {
 }
 
 function ContinuousCarousel({ onOpen }: { onOpen: (id: string) => void }) {
+  const reveal = useReveal<HTMLDivElement>();
   const carouselItems = [...CAROUSEL.media, ...CAROUSEL.media];
   return (
-    <div className="carousel-showcase reveal">
+    <div ref={reveal} className="carousel-showcase reveal">
       <div className="carousel-heading">
         <div>
           <p className="eyebrow">
@@ -658,7 +691,12 @@ function SocialSection({ onOpen }: { onOpen: (id: string) => void }) {
         label="Social & feed"
         title="Peças que"
         emphasis="explicam."
-        text="Conteúdo em 1080×1350, carrossel e peças informativas com uma preocupação simples: fazer a mensagem chegar antes do scroll."
+        text={
+          <>
+            Peças para <strong>explicar serviços, apresentar ofertas</strong> e dar consistência à
+            presença digital. Conteúdo pensado para leitura rápida e ação clara.
+          </>
+        }
       />
       <div className="social-grid">
         {SOCIAL.map((work) => (
@@ -678,7 +716,12 @@ function ShirtsSection({ onOpen }: { onOpen: (id: string) => void }) {
         label="Landi Turbina"
         title="Objeto, tipo e"
         emphasis="personalidade."
-        text="Ilustração, tipografia e composição para linhas de camisetas — frente e costas pensadas como uma única história."
+        text={
+          <>
+            Identidade aplicada em produto: <strong>ilustração, tipografia e acabamento</strong>{" "}
+            para uma linha reconhecível à primeira vista.
+          </>
+        }
       />
       <div className="shirt-grid">
         {SHIRTS.map((work) => (
@@ -699,7 +742,12 @@ function Journey() {
           label="Trajetória"
           title="Do primeiro"
           emphasis="corte ao comando."
-          text="Uma linha do tempo curta, feita de prática, responsabilidade e projetos que foram ficando maiores junto comigo."
+          text={
+            <>
+              Experiência construída em <strong>projetos reais</strong>: da execução diária à
+              direção de criação e às decisões que fazem o trabalho avançar.
+            </>
+          }
         />
         <div className="timeline">
           {TIMELINE.map(([period, role, org, description], index) => (
@@ -735,13 +783,13 @@ function About() {
           <span className="eyebrow-index">06</span> Sobre
         </p>
         <h2>
-          Faço vídeo como quem escreve um parágrafo — <em>ritmo, hierarquia e respiro</em> em cada
-          corte.
+          A comunicação precisa funcionar antes de chamar atenção.{" "}
+          <em>Eu organizo a mensagem, o formato e a entrega.</em>
         </h2>
         <p>
-          Trabalho na interseção entre edição, motion e design. Uso a suíte Adobe completa e
-          programo quando o problema pede software. Como sócio-fundador da Agência Gama, também
-          dirijo criação e resultado.
+          Trabalho com edição, motion e design para marcas, campanhas e conteúdos de rotina. A
+          experiência vai da operação — roteiro visual, corte, peça e acabamento — à direção de
+          criação na Agência Gama.
         </p>
         <a className="text-link" href={LINKEDIN} target="_blank" rel="noreferrer">
           Mais no LinkedIn <ArrowUpRight size={16} />
@@ -778,16 +826,16 @@ function ContactSection({ onOpen }: { onOpen: () => void }) {
           <span className="eyebrow-index">07</span> Última coisa
         </p>
         <h2>
-          Tem um projeto
+          Vamos colocar o projeto
           <br />
-          pedindo <em>ritmo?</em>
+          em <em>produção?</em>
         </h2>
         <p>
-          Me conte o que você está tentando colocar no mundo. A primeira conversa pode ser só uma
-          mensagem.
+          Se você já tem uma demanda ou ainda está organizando o que precisa ser feito, me escreva.
+          A conversa começa pelo contexto e pelo próximo passo.
         </p>
         <button type="button" className="contact-trigger" onClick={onOpen}>
-          Abrir conversa <ChevronRight size={18} />
+          Falar sobre o projeto <ChevronRight size={18} />
         </button>
         <div className="contact-details">
           <span>Gabriel Tinti · Avaré, SP</span>
@@ -833,7 +881,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
         </p>
         <h2 id="contact-title">Qual é a ideia?</h2>
         <p className="modal-copy">
-          Escolha o caminho mais fácil para você. Eu respondo pessoalmente.
+          Me diga o que precisa ser resolvido. Eu respondo pessoalmente e alinhamos o próximo passo.
         </p>
         <div className="contact-options">
           <a href={WHATSAPP} target="_blank" rel="noreferrer">
@@ -862,7 +910,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
           </a>
         </div>
         <p className="modal-foot">
-          <Check size={14} /> sem formulário automático, sem resposta de robô
+          <Check size={14} /> resposta pessoal, conversa objetiva
         </p>
       </div>
     </div>
@@ -1002,9 +1050,9 @@ function Portfolio() {
       </main>
       <footer className="site-footer section-frame">
         <span>© {new Date().getFullYear()} Gabriel Tinti</span>
-        <span>feito entre cortes e cafés</span>
-        <a href="#top">
-          voltar ao topo <ArrowUpRight size={14} />
+        <span>direção · edição · design</span>
+        <a className="back-to-top" href="#top">
+          voltar ao topo <ArrowUp size={14} />
         </a>
       </footer>
       <ContactModal open={contactOpen} onClose={closeContact} />
