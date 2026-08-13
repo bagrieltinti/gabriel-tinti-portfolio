@@ -260,7 +260,7 @@ const SHIRTS: Work[] = [
     tone: "brown",
     fit: "contain",
     description: "Estampa temática com ilustração vetorial e paleta de terra.",
-    media: [{ kind: "image", src: asset("landi-camiseta-fusca-catequese.webp") }],
+    media: [{ kind: "image", src: asset("landi-camiseta-fusca.webp") }],
   },
 ];
 
