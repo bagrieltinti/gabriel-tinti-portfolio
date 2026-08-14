@@ -272,36 +272,42 @@ const TIMELINE = [
     "Diretor Executivo",
     "Agência Gama Comunicação",
     "Sócio-fundador. Direção criativa e executiva, estratégia de marca e liderança do time de criação.",
+    "gama",
   ],
   [
     "2025 — atual",
     "Editor de Vídeo & Conteúdo",
     "CASE ON",
     "VTs para redes sociais e TV, motion tracking, callouts, captação e finalização no fluxo Adobe.",
+    "caseon",
   ],
   [
     "2024 — 2026",
     "Designer Gráfico & Desenvolvedor",
     "Landi Turbina",
     "Artes, identidade, estampas e sistemas internos em produção para reduzir trabalho manual do time.",
+    "landi",
   ],
   [
     "2024 — 2026",
     "Marketing & Design",
     "Landi Turbina",
     "Campanhas, materiais de comunicação e apoio criativo ao time de marketing.",
+    "landi",
   ],
   [
     "2022 — 2024",
     "Editor de Vídeo & Graphic Designer",
     "CASE ON",
     "Edição de VTs para social e TV, motion graphics, peças de feed e identidade.",
+    "caseon",
   ],
   [
     "2022",
     "Designer Gráfico",
     "GPmais Assessoria de Marketing",
     "Estágio remoto com peças de feed, identidade e apoio às contas da agência.",
+    "gpmais",
   ],
 ];
 
@@ -633,14 +639,17 @@ function VideosSection({ onOpen }: { onOpen: (id: string) => void }) {
         }
       />
       <div className="video-grid">
-        {VIDEOS.map((work, index) => (
-          <WorkCard
-            key={work.id}
-            work={work}
-            onOpen={onOpen}
-            className={`video-card video-card-${index + 1}`}
-          />
-        ))}
+        <div className="video-column video-column-main">
+          <WorkCard work={VIDEOS[0]} onOpen={onOpen} className="video-card video-card-1" />
+          <div className="video-subgrid">
+            <WorkCard work={VIDEOS[2]} onOpen={onOpen} className="video-card video-card-3" />
+            <WorkCard work={VIDEOS[3]} onOpen={onOpen} className="video-card video-card-4" />
+          </div>
+        </div>
+        <div className="video-column video-column-side">
+          <WorkCard work={VIDEOS[1]} onOpen={onOpen} className="video-card video-card-2" />
+          <WorkCard work={VIDEOS[4]} onOpen={onOpen} className="video-card video-card-5" />
+        </div>
       </div>
     </section>
   );
@@ -757,7 +766,7 @@ function Journey() {
             <span>2022</span>
             <span>agora</span>
           </div>
-          {TIMELINE.map(([period, role, org, description], index) => (
+          {TIMELINE.map(([period, role, org, description, logo], index) => (
             <article
               className={`timeline-item ${index % 2 ? "is-offset" : ""}`}
               key={`${period}-${role}`}
@@ -773,7 +782,18 @@ function Journey() {
                   <span className="timeline-marker">{index === 0 ? "agora" : "arquivo"}</span>
                 </div>
                 <h3>{role}</h3>
-                <p className="timeline-org">{org}</p>
+                <div className="timeline-company">
+                  <span className={`timeline-logo timeline-logo-${logo}`} aria-hidden="true">
+                    {logo === "gama"
+                      ? "G"
+                      : logo === "caseon"
+                        ? "CO"
+                        : logo === "landi"
+                          ? "L"
+                          : "GP"}
+                  </span>
+                  <p className="timeline-org">{org}</p>
+                </div>
                 <p className="timeline-description">{description}</p>
               </div>
             </article>
