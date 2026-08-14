@@ -820,7 +820,7 @@ function About() {
           <span className="eyebrow-index">06</span> Sobre
         </p>
         <h2>
-          Antes de chamar atenção, <em>precisa funcionar.</em>
+          Ideias claras. <em>Peças que funcionam.</em>
         </h2>
         <div className="about-detail">
           <p className="about-description">
@@ -838,7 +838,7 @@ function About() {
             <a className="about-agency" href={AGENCY} target="_blank" rel="noreferrer">
               <span className="about-agency-label">Também na</span>
               <span className="about-agency-row">
-                <img src={asset("logo-gama.png")} alt="Gama Comunicação" />
+                <img src={asset("logo-gama-favicon.png")} alt="Gama Comunicação" />
                 <ArrowUpRight size={17} />
               </span>
               <span className="about-agency-caption">Conheça a agência</span>

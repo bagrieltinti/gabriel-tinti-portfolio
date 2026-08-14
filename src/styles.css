@@ -1157,12 +1157,9 @@ h3 em {
 }
 .about-agency-row img {
   display: block;
-  width: 126px;
-  height: 36px;
-  padding: 5px 7px;
-  object-fit: contain;
-  object-position: left center;
-  background: var(--ink);
+  width: 42px;
+  height: 42px;
+  object-fit: cover;
 }
 .about-agency:hover {
   background: var(--paper-deep);
