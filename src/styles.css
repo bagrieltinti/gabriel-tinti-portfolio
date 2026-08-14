@@ -154,11 +154,14 @@ button {
   border-color: rgba(242, 239, 232, 0.3);
 }
 .nav-brand {
+  position: absolute;
+  left: 50%;
   display: inline-flex;
   align-items: center;
   gap: 11px;
   min-width: 0;
   color: var(--cream);
+  transform: translateX(-50%);
 }
 .nav-brand-logo {
   display: block;
@@ -357,25 +360,6 @@ h3 em {
   margin: 0;
   color: var(--ink-soft);
   font-size: 12px;
-}
-.hero-side-note {
-  position: absolute;
-  right: 0;
-  bottom: 55px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  color: var(--ink-soft);
-  font: 10px var(--mono);
-  text-transform: uppercase;
-  writing-mode: vertical-rl;
-}
-.hero-side-note i {
-  display: block;
-  width: 1px;
-  height: 70px;
-  background: var(--ink);
 }
 /* Running strip */
 .discipline-strip {
@@ -1127,8 +1111,18 @@ h3 em {
 }
 .about-link strong {
   display: block;
-  margin-top: 8px;
+  margin-top: 0;
   font: 500 13px/1.2 var(--sans);
+}
+.about-link-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.about-link-title svg,
+.whatsapp-word {
+  color: #25d366;
 }
 .about-link:hover {
   color: var(--signal-dark);
@@ -1252,13 +1246,15 @@ h3 em {
   }
 }
 .site-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  display: grid;
+  justify-items: center;
+  gap: 13px;
+  padding-top: 30px;
+  padding-bottom: 28px;
+  border-top: 1px solid var(--line);
   color: var(--ink-soft);
   font: 10px var(--mono);
+  text-align: center;
   text-transform: uppercase;
 }
 .site-footer a {
@@ -1279,6 +1275,35 @@ h3 em {
   background: var(--ink);
   color: var(--cream);
   transform: translateY(-2px);
+}
+
+.floating-whatsapp {
+  position: fixed;
+  z-index: 85;
+  right: clamp(15px, 2.5vw, 32px);
+  bottom: clamp(15px, 2.5vw, 30px);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 15px;
+  border: 1px solid var(--ink);
+  background: var(--signal);
+  box-shadow: 4px 4px 0 var(--ink);
+  color: var(--cream);
+  font: 10px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.floating-whatsapp:hover {
+  background: var(--ink);
+  color: var(--cream);
+  transform: translate(-2px, -3px);
+  box-shadow: 6px 6px 0 var(--signal);
 }
 
 /* Work lightbox */
@@ -1803,38 +1828,37 @@ h3 em {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    gap: 0;
     min-height: auto;
-    padding-top: 116px;
-    padding-bottom: 65px;
+    padding-top: 103px;
+    padding-bottom: 48px;
   }
   .hero-copy {
-    padding-bottom: 54px;
+    padding-bottom: 48px;
   }
   .hero h1 {
-    margin-top: 36px;
-    margin-bottom: 22px;
-    font-size: clamp(86px, 25vw, 142px);
+    margin-top: 44px;
+    margin-bottom: 25px;
+    font-size: clamp(78px, 23vw, 128px);
   }
   .hero-lede {
-    max-width: 310px;
+    max-width: 290px;
+    margin-bottom: 29px;
     font-size: 15px;
   }
   .hero-brief {
     min-height: 0;
-    margin: 0 0 54px 9px;
-    padding: 22px 0 56px 20px;
+    margin: 0 0 0 8px;
+    padding: 22px 14px 27px 18px;
+    border-top: 1px solid var(--line);
   }
   .hero-brief-lede {
-    max-width: 300px;
-    margin: 44px 0 35px;
-    font-size: 39px;
+    max-width: 325px;
+    margin: 34px 0 29px;
+    font-size: clamp(32px, 9.2vw, 42px);
   }
   .hero-facts {
     max-width: none;
-  }
-  .hero-side-note {
-    right: 0;
-    bottom: 46px;
   }
   .discipline-track span {
     gap: 19px;
@@ -2069,14 +2093,29 @@ h3 em {
     font-size: 52px;
   }
   .site-footer {
-    display: grid;
-    gap: 11px;
-    padding-top: 16px;
-    padding-bottom: 16px;
+    gap: 12px;
+    padding-top: 27px;
+    padding-bottom: 25px;
     font-size: 8px;
   }
   .site-footer a {
-    width: max-content;
+    justify-self: center;
+  }
+  .floating-whatsapp {
+    right: 15px;
+    bottom: 15px;
+    width: 46px;
+    height: 46px;
+    justify-content: center;
+    padding: 0;
+  }
+  .floating-whatsapp span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
   .work-modal {
     padding: 15px;

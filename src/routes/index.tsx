@@ -276,7 +276,7 @@ const TIMELINE = [
     "gama",
   ],
   [
-    "2025 — atual",
+    "2026 — atual",
     "Editor de Vídeo & Conteúdo",
     "CASE ON",
     "VTs para redes sociais e TV, motion tracking, callouts, captação e finalização no fluxo Adobe.",
@@ -451,10 +451,6 @@ function Hero() {
             <strong>Consistência</strong>
             <p>Peças que conversam entre si.</p>
           </div>
-        </div>
-        <div className="hero-side-note">
-          <span>role para explorar</span>
-          <i />
         </div>
       </div>
     </section>
@@ -820,7 +816,9 @@ function About() {
           <span className="eyebrow-index">06</span> Sobre
         </p>
         <h2>
-          Ideias claras. <em>Peças que funcionam.</em>
+          Ideias claras.
+          <br />
+          <em>Peças que funcionam.</em>
         </h2>
         <div className="about-detail">
           <p className="about-description">
@@ -831,7 +829,12 @@ function About() {
             <a className="about-link" href={WHATSAPP} target="_blank" rel="noreferrer">
               <span>
                 <small>Contato direto</small>
-                <strong>Falar pelo WhatsApp</strong>
+                <span className="about-link-title">
+                  <MessageCircle size={15} aria-hidden="true" />
+                  <strong>
+                    Falar pelo <span className="whatsapp-word">WhatsApp</span>
+                  </strong>
+                </span>
               </span>
               <ArrowUpRight size={17} />
             </a>
@@ -1151,6 +1154,17 @@ function Portfolio() {
     <div className="portfolio-page">
       <ScrollProgress />
       <Nav />
+      <a
+        className="floating-whatsapp"
+        href={WHATSAPP}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Falar com Gabriel pelo WhatsApp"
+        title="Falar pelo WhatsApp"
+      >
+        <MessageCircle size={18} />
+        <span>WhatsApp</span>
+      </a>
       <main>
         <Hero />
         <DisciplineStrip />
