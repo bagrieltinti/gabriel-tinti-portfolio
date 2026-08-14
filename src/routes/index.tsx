@@ -1161,7 +1161,7 @@ function WorkModal({
             <span>{isCarousel ? "1080 × 1350" : work.ratio}</span>
             <span>{work.tag}</span>
           </div>
-          {work.media.length > 1 && (
+          {work.media.length > 1 && !isCarousel && (
             <div className="modal-media-switch">
               {work.media.map((item, itemIndex) => (
                 <button
