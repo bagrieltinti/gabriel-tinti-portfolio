@@ -311,6 +311,13 @@ const TIMELINE = [
   ],
 ];
 
+const TIMELINE_LOGOS: Record<string, { src: string; alt: string }> = {
+  gama: { src: asset("logo-gama.png"), alt: "Gama Comunicação" },
+  caseon: { src: asset("logo-caseon.png"), alt: "CaseOn" },
+  landi: { src: asset("logo-landi-turbina.png"), alt: "Landi Turbina" },
+  gpmais: { src: asset("logo-gpmais.png"), alt: "GPmais" },
+};
+
 function useReveal<T extends HTMLElement>(threshold = 0.12) {
   const ref = useRef<T | null>(null);
   useEffect(() => {
@@ -450,11 +457,6 @@ function Hero() {
           <span>role para explorar</span>
           <i />
         </div>
-      </div>
-      <div className="hero-bottomline">
-        <span>seleção 2024—26</span>
-        <span>vídeo · motion · design</span>
-        <span>↓ role para explorar</span>
       </div>
     </section>
   );
@@ -766,38 +768,38 @@ function Journey() {
             <span>2022</span>
             <span>agora</span>
           </div>
-          {TIMELINE.map(([period, role, org, description, logo], index) => (
-            <article
-              className={`timeline-item ${index % 2 ? "is-offset" : ""}`}
-              key={`${period}-${role}`}
-            >
-              <span className="timeline-dot" />
-              <div className="timeline-period">
-                <span>{period}</span>
-                <small>{index === 0 ? "em andamento" : "experiência"}</small>
-              </div>
-              <div className="timeline-card">
-                <div className="timeline-card-top">
-                  <span className="timeline-number">0{index + 1}</span>
-                  <span className="timeline-marker">{index === 0 ? "agora" : "arquivo"}</span>
+          {TIMELINE.map(([period, role, org, description, logo], index) => {
+            const logoAsset = TIMELINE_LOGOS[logo];
+            return (
+              <article
+                className={`timeline-item ${index % 2 ? "is-offset" : ""}`}
+                key={`${period}-${role}`}
+              >
+                <span className="timeline-dot" />
+                <div className="timeline-period">
+                  <span>{period}</span>
+                  <small>{index === 0 ? "em andamento" : "experiência"}</small>
                 </div>
-                <h3>{role}</h3>
-                <div className="timeline-company">
-                  <span className={`timeline-logo timeline-logo-${logo}`} aria-hidden="true">
-                    {logo === "gama"
-                      ? "G"
-                      : logo === "caseon"
-                        ? "CO"
-                        : logo === "landi"
-                          ? "L"
-                          : "GP"}
-                  </span>
-                  <p className="timeline-org">{org}</p>
+                <div className="timeline-card">
+                  <div className="timeline-card-top">
+                    <span className="timeline-number">0{index + 1}</span>
+                    <span className="timeline-marker">{index === 0 ? "agora" : "arquivo"}</span>
+                  </div>
+                  <h3>{role}</h3>
+                  <div className="timeline-company">
+                    <img
+                      className={`timeline-logo timeline-logo-${logo}`}
+                      src={logoAsset.src}
+                      alt={`${logoAsset.alt} — ${org}`}
+                      loading="lazy"
+                    />
+                    <p className="timeline-org">{org}</p>
+                  </div>
+                  <p className="timeline-description">{description}</p>
                 </div>
-                <p className="timeline-description">{description}</p>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>
