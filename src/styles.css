@@ -134,23 +134,21 @@ button {
   width: 100%;
   height: 72px;
   padding: 0 32px;
-  border-bottom: 1px solid transparent;
-  color: var(--ink);
-  transition:
-    background 0.35s ease,
-    border-color 0.35s ease;
+  border-bottom: 1px solid rgba(242, 239, 232, 0.18);
+  background: var(--ink);
+  color: var(--cream);
+  transition: border-color 0.35s ease;
 }
 .site-nav.is-scrolled {
-  background: color-mix(in srgb, var(--paper) 90%, transparent);
-  border-color: var(--line);
-  backdrop-filter: blur(16px);
+  background: var(--ink);
+  border-color: rgba(242, 239, 232, 0.3);
 }
 .nav-brand {
   display: inline-flex;
   align-items: center;
   gap: 11px;
   min-width: 0;
-  color: var(--ink);
+  color: var(--cream);
 }
 .nav-brand-logo {
   display: block;
@@ -203,21 +201,21 @@ button {
   align-items: center;
   gap: 7px;
   padding: 11px 14px !important;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--cream);
   transition:
     background 0.25s ease,
     color 0.25s ease;
 }
 .nav-contact:hover {
-  background: var(--ink);
-  color: var(--cream);
+  background: var(--cream);
+  color: var(--ink);
 }
 .nav-toggle {
   display: none;
   width: 38px;
   height: 38px;
   padding: 9px;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--cream);
   background: transparent;
 }
 .nav-toggle span {
@@ -1074,16 +1072,88 @@ h3 em {
   padding-top: 2px;
 }
 .about-copy h2 {
-  margin: 28px 0 35px;
+  max-width: 780px;
+  margin: 28px 0 50px;
   font: 400 clamp(43px, 5.5vw, 82px)/0.88 var(--display);
   letter-spacing: -0.07em;
 }
-.about-copy > p:not(.eyebrow) {
+.about-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.68fr);
+  gap: clamp(28px, 5vw, 82px);
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+.about-description {
   max-width: 525px;
-  margin: 0 0 32px;
+  margin: 0;
   color: var(--ink-soft);
   font-size: 16px;
   line-height: 1.65;
+}
+.about-links {
+  display: grid;
+  gap: 13px;
+}
+.about-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 0 15px;
+  border-bottom: 1px solid var(--line);
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+.about-link small,
+.about-agency-label,
+.about-agency-caption {
+  display: block;
+  color: var(--ink-soft);
+  font: 10px/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.about-link strong {
+  display: block;
+  margin-top: 8px;
+  font: 500 13px/1.2 var(--sans);
+}
+.about-link:hover {
+  color: var(--signal-dark);
+  transform: translateX(4px);
+}
+.about-agency {
+  display: grid;
+  gap: 17px;
+  padding: 17px 18px 16px;
+  background: var(--ink);
+  color: var(--cream);
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+.about-agency-label,
+.about-agency-caption {
+  color: rgba(242, 239, 232, 0.62);
+}
+.about-agency-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.about-agency-row img {
+  display: block;
+  width: 126px;
+  height: 36px;
+  object-fit: contain;
+  object-position: left center;
+}
+.about-agency:hover {
+  background: var(--signal);
+  transform: translateY(-4px);
 }
 
 /* Contact */
@@ -1699,21 +1769,22 @@ h3 em {
     flex-direction: column;
     gap: 0;
     padding: 7px 15px 15px;
-    border: 1px solid var(--ink);
-    background: var(--paper);
-    box-shadow: 7px 7px 0 var(--ink);
+    border: 1px solid var(--cream);
+    background: var(--ink);
+    color: var(--cream);
+    box-shadow: 7px 7px 0 var(--signal);
   }
   .nav-links.is-open {
     display: flex;
   }
   .nav-links a {
     padding: 14px 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid rgba(242, 239, 232, 0.2);
   }
   .nav-links .nav-contact {
     justify-content: center;
     margin-top: 10px;
-    border: 1px solid var(--ink);
+    border: 1px solid var(--cream);
   }
   .nav-toggle {
     display: block;
@@ -1961,7 +2032,11 @@ h3 em {
     margin-top: 24px;
     font-size: 51px;
   }
-  .about-copy > p:not(.eyebrow) {
+  .about-detail {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .about-description {
     font-size: 14px;
   }
   .contact-section {

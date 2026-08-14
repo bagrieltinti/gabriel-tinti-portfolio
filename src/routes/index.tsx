@@ -26,6 +26,7 @@ import {
 
 const WHATSAPP = "https://wa.me/5514998202760";
 const EMAIL = "gabrieltintic@gmail.com";
+const AGENCY = "https://agenciagama.com.br";
 const LINKEDIN = "https://www.linkedin.com/in/gabriel-tinti-da-costa-670b48269/";
 const asset = (name: string) => `/media/${name}`;
 
@@ -820,16 +821,31 @@ function About() {
         </p>
         <h2>
           A comunicação precisa funcionar antes de chamar atenção.{" "}
-          <em>Eu organizo a mensagem, o formato e a entrega.</em>
+          <em>Eu organizo mensagem, formato e entrega.</em>
         </h2>
-        <p>
-          Trabalho com edição, motion e design para marcas, campanhas e conteúdos de rotina. A
-          experiência vai da operação — roteiro visual, corte, peça e acabamento — à direção de
-          criação na Agência Gama.
-        </p>
-        <a className="text-link" href={LINKEDIN} target="_blank" rel="noreferrer">
-          Mais no LinkedIn <ArrowUpRight size={16} />
-        </a>
+        <div className="about-detail">
+          <p className="about-description">
+            Trabalho entre a ideia e o arquivo final: edição, motion e design para marcas, campanhas
+            e conteúdo de rotina. Hoje, também conduzo a criação na Agência Gama.
+          </p>
+          <div className="about-links">
+            <a className="about-link" href={WHATSAPP} target="_blank" rel="noreferrer">
+              <span>
+                <small>Contato direto</small>
+                <strong>Falar pelo WhatsApp</strong>
+              </span>
+              <ArrowUpRight size={17} />
+            </a>
+            <a className="about-agency" href={AGENCY} target="_blank" rel="noreferrer">
+              <span className="about-agency-label">Também na</span>
+              <span className="about-agency-row">
+                <img src={asset("logo-gama.png")} alt="Gama Comunicação" />
+                <ArrowUpRight size={17} />
+              </span>
+              <span className="about-agency-caption">Conheça a agência</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
   );
