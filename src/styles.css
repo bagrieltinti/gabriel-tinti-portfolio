@@ -16,6 +16,7 @@
   --mono: "IBM Plex Mono", monospace;
   --scroll-progress: 0;
   --scroll-y: 0;
+  --scroll-tilt: 0;
 }
 
 * {
@@ -121,15 +122,25 @@ button {
   transform: scaleX(0.38);
 }
 .scroll-progress {
+  overflow: visible;
   position: fixed;
   z-index: 100;
   top: 0;
   left: 0;
-  width: 100%;
+  width: calc(var(--scroll-progress) * 100%);
   height: 3px;
   background: var(--signal);
-  transform: scaleX(var(--scroll-progress));
-  transform-origin: left;
+}
+.scroll-progress i {
+  position: absolute;
+  top: -2px;
+  left: calc(100% - 4px);
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--ink);
+  background: var(--cream);
+  content: "";
+  transform: rotate(45deg);
 }
 
 /* Navigation: a top rail rather than a floating pill. */
@@ -153,33 +164,51 @@ button {
   background: var(--ink);
   border-color: rgba(242, 239, 232, 0.3);
 }
-.nav-brand {
-  position: absolute;
-  left: 50%;
+.nav-signature {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: 11px;
-  min-width: 0;
+  gap: 8px;
   color: var(--cream);
-  transform: translateX(-50%);
+  font: 400 16px/1 var(--display);
+  letter-spacing: -0.045em;
+  transition: color 0.25s ease;
 }
-.nav-brand-logo {
+.nav-signature::before {
+  width: 5px;
+  height: 5px;
+  background: var(--signal);
+  content: "";
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+}
+.nav-signature:hover {
+  color: var(--signal);
+}
+.nav-signature:hover::before {
+  transform: rotate(135deg) scale(0.8);
+}
+.nav-agency {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  color: var(--cream);
+  transform: translate(-50%, -50%);
+}
+.nav-agency-logo {
   display: block;
-  width: 57px;
-  height: 22px;
+  width: 92px;
+  height: 28px;
   object-fit: contain;
-  object-position: left center;
+  object-position: center;
   transition: transform 0.35s ease;
 }
-.nav-brand-name {
-  padding-top: 1px;
-  font: 500 10px/1 var(--mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.nav-brand:hover .nav-brand-logo {
-  transform: translateX(2px) scale(1.04);
+.nav-agency:hover .nav-agency-logo {
+  transform: scale(1.06);
 }
 .nav-links {
   display: flex;
@@ -190,8 +219,21 @@ button {
   text-transform: uppercase;
 }
 .nav-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   position: relative;
   padding: 8px 0;
+}
+.nav-link-icon {
+  opacity: 0.72;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+.nav-links a:hover .nav-link-icon {
+  color: var(--signal);
+  transform: translateY(-1px);
 }
 .nav-links a:not(.nav-contact)::after {
   content: "";
@@ -237,6 +279,13 @@ button {
   height: 1px;
   margin: 5px 0;
   background: currentColor;
+  transition: transform 0.25s ease;
+}
+.nav-toggle.is-open span:first-child {
+  transform: translateY(3px) rotate(45deg);
+}
+.nav-toggle.is-open span:last-child {
+  transform: translateY(-3px) rotate(-45deg);
 }
 
 /* Hero */
@@ -262,6 +311,20 @@ button {
   opacity: 0.75;
   pointer-events: none;
   mask-image: linear-gradient(135deg, black, transparent 75%);
+}
+.hero::after {
+  position: absolute;
+  top: 28%;
+  right: clamp(16px, 4vw, 58px);
+  width: clamp(42px, 5vw, 78px);
+  aspect-ratio: 1;
+  border: 1px solid var(--signal);
+  content: "";
+  opacity: 0.38;
+  pointer-events: none;
+  transform: translate3d(calc(var(--scroll-tilt) * 22px), calc(var(--scroll-tilt) * -15px), 0)
+    rotate(calc(var(--scroll-tilt) * 18deg));
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .hero-copy {
   position: relative;
@@ -576,12 +639,15 @@ h3 em {
     transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
     filter 0.7s ease;
 }
+.work-card .media-object {
+  transform: translate3d(0, calc(var(--scroll-tilt) * -7px), 0) scale(1.012);
+}
 .media-object.is-contain {
   object-fit: contain;
   padding: 10px;
 }
 .work-visual:hover .media-object {
-  transform: scale(1.045);
+  transform: translate3d(0, calc(var(--scroll-tilt) * -7px), 0) scale(1.045);
   filter: saturate(1.08);
 }
 .work-index,
@@ -1723,6 +1789,16 @@ h3 em {
     transform: scale(1);
   }
 }
+@keyframes menu-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -1784,15 +1860,12 @@ h3 em {
     height: 60px;
     padding: 0 15px;
   }
-  .nav-brand {
-    gap: 8px;
+  .nav-signature {
+    font-size: 14px;
   }
-  .nav-brand-logo {
-    width: 47px;
-    height: 18px;
-  }
-  .nav-brand-name {
-    font-size: 9px;
+  .nav-agency-logo {
+    width: 68px;
+    height: 21px;
   }
   .nav-links {
     position: absolute;
@@ -1811,6 +1884,7 @@ h3 em {
   }
   .nav-links.is-open {
     display: flex;
+    animation: menu-drop 0.28s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
   .nav-links a {
     padding: 14px 0;
@@ -1832,6 +1906,12 @@ h3 em {
     min-height: auto;
     padding-top: 103px;
     padding-bottom: 48px;
+  }
+  .hero::after {
+    top: 19%;
+    right: -8px;
+    width: 44px;
+    opacity: 0.28;
   }
   .hero-copy {
     padding-bottom: 48px;

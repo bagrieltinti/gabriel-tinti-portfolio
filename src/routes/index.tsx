@@ -6,12 +6,15 @@ import {
   ArrowUp,
   ArrowUpRight,
   Check,
+  Clapperboard,
   ChevronRight,
+  GitBranch,
   Mail,
   MessageCircle,
   Linkedin,
   MoveUpRight,
   Play,
+  UserRound,
   X,
 } from "lucide-react";
 import {
@@ -348,6 +351,7 @@ function useScrollProgress() {
       const scrollY = Math.min(window.scrollY, 1200);
       root.style.setProperty("--scroll-progress", String(max ? root.scrollTop / max : 0));
       root.style.setProperty("--scroll-y", String(scrollY));
+      root.style.setProperty("--scroll-tilt", String(Math.min(window.scrollY / 900, 1)));
       raf = 0;
     };
     const handleScroll = () => {
@@ -374,31 +378,42 @@ function Nav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   const links = [
-    ["Trabalhos", "#trabalhos"],
-    ["Processo", "#processo"],
-    ["Sobre", "#sobre"],
+    { label: "Trabalhos", href: "#trabalhos", Icon: Clapperboard },
+    { label: "Processo", href: "#processo", Icon: GitBranch },
+    { label: "Sobre", href: "#sobre", Icon: UserRound },
   ];
   return (
     <header className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
-      <a className="nav-brand" href="#top" aria-label="Gabriel Tinti — voltar ao início">
-        <img className="nav-brand-logo" src={asset("logo-gama.png")} alt="Gama Comunicação" />
-        <span className="nav-brand-name">Gabriel Tinti</span>
+      <a className="nav-signature" href="#top" aria-label="Gabriel Tinti — voltar ao início">
+        Gabriel Tinti
+      </a>
+      <a
+        className="nav-agency"
+        href={AGENCY}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Abrir Agência Gama"
+      >
+        <img className="nav-agency-logo" src={asset("logo-gama.png")} alt="Gama Comunicação" />
       </a>
       <nav className={`nav-links ${menuOpen ? "is-open" : ""}`} aria-label="Navegação principal">
-        {links.map(([label, href]) => (
+        {links.map(({ label, href, Icon }) => (
           <a href={href} key={href} onClick={() => setMenuOpen(false)}>
-            {label}
+            <Icon className="nav-link-icon" size={13} strokeWidth={1.7} />
+            <span>{label}</span>
           </a>
         ))}
         <a className="nav-contact" href={WHATSAPP} target="_blank" rel="noreferrer">
-          Vamos conversar <ArrowUpRight size={14} />
+          <MessageCircle size={13} strokeWidth={1.8} />
+          <span>Vamos conversar</span>
+          <ArrowUpRight size={14} />
         </a>
       </nav>
       <button
-        className="nav-toggle"
+        className={`nav-toggle ${menuOpen ? "is-open" : ""}`}
         type="button"
         onClick={() => setMenuOpen((value) => !value)}
-        aria-label="Abrir menu"
+        aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
         aria-expanded={menuOpen}
       >
         <span />
@@ -1128,7 +1143,11 @@ function WorkModal({
 }
 
 function ScrollProgress() {
-  return <div className="scroll-progress" aria-hidden="true" />;
+  return (
+    <div className="scroll-progress" aria-hidden="true">
+      <i />
+    </div>
+  );
 }
 
 function Portfolio() {
