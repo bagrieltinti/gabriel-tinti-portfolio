@@ -1093,7 +1093,7 @@ function WorkModal({
               </span>
               <span className="feed-account">
                 <strong>@educoom</strong>
-                <small>jornalismo & publicidade</small>
+                <small>jornalismo & publicidade · 1080 × 1350</small>
               </span>
               <span className="feed-position">
                 {String(mediaIndex + 1).padStart(2, "0")} /{" "}
@@ -1158,7 +1158,7 @@ function WorkModal({
           <h2>{work.title}</h2>
           <p className="modal-description">{work.description}</p>
           <div className="modal-meta">
-            <span>{work.ratio}</span>
+            <span>{isCarousel ? "1080 × 1350" : work.ratio}</span>
             <span>{work.tag}</span>
           </div>
           {work.media.length > 1 && (

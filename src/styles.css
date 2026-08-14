@@ -1514,7 +1514,8 @@ h3 em {
   width: min(100%, 1120px);
 }
 .modal-feed-card {
-  width: min(100%, 540px);
+  width: min(100%, 540px, calc((100svh - 175px) * 0.8));
+  margin-inline: auto;
   overflow: hidden;
   background: #f5f2eb;
   color: var(--ink);
@@ -1580,7 +1581,8 @@ h3 em {
 .modal-feed-visual {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 5;
+  width: 100%;
+  aspect-ratio: 1080 / 1350;
   background: #0c2e7b;
   touch-action: pan-y;
   user-select: none;
@@ -1666,12 +1668,15 @@ h3 em {
 }
 .is-carousel .modal-info {
   align-self: center;
+  padding-bottom: 5px;
 }
 .is-carousel .modal-info h2 {
-  margin: 0;
+  max-width: 390px;
+  margin: 0 0 21px;
 }
 .is-carousel .modal-info .modal-description {
   max-width: 420px;
+  line-height: 1.7;
 }
 @keyframes feed-card-in {
   from {
@@ -2316,15 +2321,15 @@ h3 em {
     margin-top: 26px;
   }
   .modal-feed-card {
-    width: 100%;
-    max-width: 460px;
+    width: min(100%, 390px);
+    max-width: none;
     margin-inline: auto;
     box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.22);
   }
   .modal-feed-visual {
-    height: min(125vw, 500px, calc(100svh - 285px));
-    min-height: 300px;
-    aspect-ratio: auto;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1080 / 1350;
   }
   .modal-carousel-arrow {
     opacity: 0.86;
@@ -2333,7 +2338,10 @@ h3 em {
     display: block;
   }
   .is-carousel .modal-info h2 {
+    max-width: 330px;
     margin-bottom: 15px;
+    font-size: clamp(44px, 13vw, 58px);
+    line-height: 0.84;
   }
   .work-modal-bottom {
     margin-top: auto;
