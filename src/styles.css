@@ -24,6 +24,8 @@
 html {
   scroll-behavior: smooth;
   background: var(--paper);
+  scrollbar-color: var(--signal) var(--ink);
+  scrollbar-width: thin;
 }
 body {
   margin: 0;
@@ -55,14 +57,22 @@ button {
   color: var(--cream);
 }
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--paper);
+  background: var(--ink);
 }
 ::-webkit-scrollbar-thumb {
-  background: #aaa9a2;
-  border: 3px solid var(--paper);
+  background: var(--signal);
+  border: 3px solid var(--ink);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cream);
+  border-color: var(--signal);
+}
+::-webkit-scrollbar-corner {
+  background: var(--ink);
 }
 
 .portfolio-page {
