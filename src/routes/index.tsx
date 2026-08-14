@@ -23,6 +23,7 @@ import {
   useMemo,
   useRef,
   useState,
+  type PointerEvent,
   type ReactNode,
   type RefObject,
 } from "react";
@@ -895,13 +896,24 @@ function ContactSection({ onOpen }: { onOpen: () => void }) {
           <span className="eyebrow-index">07</span> Última coisa
         </p>
         <h2>
-          Vamos colocar o projeto
-          <br />
-          em <em>produção?</em>
+          <span className="contact-heading-wide">
+            Vamos colocar o projeto
+            <br />
+            em <em>produção?</em>
+          </span>
+          <span className="contact-heading-narrow">
+            Vamos
+            <br />
+            colocar o
+            <br />
+            projeto em
+            <br />
+            <em>produção?</em>
+          </span>
         </h2>
-        <p>
+        <p className="contact-lede">
           Se você já tem uma demanda ou ainda está organizando o que precisa ser feito, me escreva.
-          A conversa começa pelo contexto e pelo próximo passo.
+          <br />A conversa começa pelo contexto e pelo próximo passo.
         </p>
         <button type="button" className="contact-trigger" onClick={onOpen}>
           Falar sobre o projeto <ChevronRight size={18} />
@@ -998,24 +1010,35 @@ function WorkModal({
   onNavigate: (direction: number) => void;
 }) {
   const [mediaIndex, setMediaIndex] = useState(0);
+  const [mediaDirection, setMediaDirection] = useState(1);
+  const swipeStart = useRef<number | null>(null);
   useEffect(() => setMediaIndex(0), [work?.id]);
+  useEffect(() => setMediaDirection(1), [work?.id]);
   const isCarousel = work?.id === CAROUSEL.id;
+  const moveCarousel = useCallback(
+    (direction: number) => {
+      if (!work) return;
+      setMediaDirection(direction >= 0 ? 1 : -1);
+      setMediaIndex(
+        (currentIndex) => (currentIndex + direction + work.media.length) % work.media.length,
+      );
+    },
+    [work],
+  );
   useEffect(() => {
     if (!work) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
       if (event.key === "ArrowRight") {
         if (isCarousel) {
-          setMediaIndex((currentIndex) => (currentIndex + 1) % work.media.length);
+          moveCarousel(1);
         } else {
           onNavigate(1);
         }
       }
       if (event.key === "ArrowLeft") {
         if (isCarousel) {
-          setMediaIndex(
-            (currentIndex) => (currentIndex - 1 + work.media.length) % work.media.length,
-          );
+          moveCarousel(-1);
         } else {
           onNavigate(-1);
         }
@@ -1028,13 +1051,25 @@ function WorkModal({
       document.body.style.overflow = previous;
       document.removeEventListener("keydown", onKey);
     };
-  }, [isCarousel, onClose, onNavigate, work]);
+  }, [isCarousel, moveCarousel, onClose, onNavigate, work]);
   if (!work) return null;
   const current = work.media[mediaIndex] ?? work.media[0];
-  const moveCarousel = (direction: number) => {
-    setMediaIndex(
-      (currentIndex) => (currentIndex + direction + work.media.length) % work.media.length,
-    );
+  const moveToCarouselIndex = (nextIndex: number) => {
+    const total = work.media.length;
+    const forwardDistance = (nextIndex - mediaIndex + total) % total;
+    const backwardDistance = (mediaIndex - nextIndex + total) % total;
+    setMediaDirection(forwardDistance <= backwardDistance ? 1 : -1);
+    setMediaIndex(nextIndex);
+  };
+  const handleSwipeStart = (event: PointerEvent<HTMLDivElement>) => {
+    swipeStart.current = event.clientX;
+  };
+  const handleSwipeEnd = (event: PointerEvent<HTMLDivElement>) => {
+    if (swipeStart.current === null) return;
+    const distance = event.clientX - swipeStart.current;
+    swipeStart.current = null;
+    if (Math.abs(distance) < 42) return;
+    moveCarousel(distance < 0 ? 1 : -1);
   };
   return (
     <div className="work-modal" role="dialog" aria-modal="true" onClick={onClose}>
@@ -1065,8 +1100,20 @@ function WorkModal({
                 {String(work.media.length).padStart(2, "0")}
               </span>
             </div>
-            <div className="modal-feed-visual">
-              <img src={current.src} alt={`${work.title} — ${current.label}`} />
+            <div
+              className="modal-feed-visual"
+              onPointerDown={handleSwipeStart}
+              onPointerUp={handleSwipeEnd}
+              onPointerCancel={() => {
+                swipeStart.current = null;
+              }}
+            >
+              <div
+                className={`modal-feed-slide ${mediaDirection > 0 ? "is-forward" : "is-backward"}`}
+                key={current.src}
+              >
+                <img src={current.src} alt={`${work.title} — ${current.label}`} />
+              </div>
               <button
                 className="modal-carousel-arrow modal-carousel-prev"
                 type="button"
@@ -1091,7 +1138,7 @@ function WorkModal({
                     className={itemIndex === mediaIndex ? "is-active" : ""}
                     type="button"
                     key={item.src}
-                    onClick={() => setMediaIndex(itemIndex)}
+                    onClick={() => moveToCarouselIndex(itemIndex)}
                     aria-label={`Abrir card ${itemIndex + 1}`}
                   />
                 ))}
