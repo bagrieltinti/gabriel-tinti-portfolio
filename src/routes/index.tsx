@@ -379,11 +379,9 @@ function Nav() {
   ];
   return (
     <header className={`site-nav ${scrolled ? "is-scrolled" : ""}`}>
-      <a className="nav-mark" href="#top" aria-label="Voltar ao início">
-        <span className="nav-icon" aria-hidden="true">
-          <i />
-          <i />
-        </span>
+      <a className="nav-brand" href="#top" aria-label="Gabriel Tinti — voltar ao início">
+        <img className="nav-brand-logo" src={asset("logo-gama.png")} alt="Gama Comunicação" />
+        <span className="nav-brand-name">Gabriel Tinti</span>
       </a>
       <nav className={`nav-links ${menuOpen ? "is-open" : ""}`} aria-label="Navegação principal">
         {links.map(([label, href]) => (
