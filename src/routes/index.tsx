@@ -1149,7 +1149,14 @@ function Portfolio() {
       <footer className="site-footer section-frame">
         <span>© {new Date().getFullYear()} Gabriel Tinti</span>
         <span>direção · edição · design</span>
-        <a className="back-to-top" href="#top">
+        <a
+          className="back-to-top"
+          href="#top"
+          onClick={(event) => {
+            event.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           voltar ao topo <ArrowUp size={14} />
         </a>
       </footer>
