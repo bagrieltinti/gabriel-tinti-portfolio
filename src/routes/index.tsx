@@ -331,7 +331,9 @@ function useScrollProgress() {
     const update = () => {
       const root = document.documentElement;
       const max = root.scrollHeight - root.clientHeight;
+      const scrollY = Math.min(window.scrollY, 1200);
       root.style.setProperty("--scroll-progress", String(max ? root.scrollTop / max : 0));
+      root.style.setProperty("--scroll-y", String(scrollY));
       raf = 0;
     };
     const handleScroll = () => {
@@ -488,8 +490,9 @@ function SectionIntro({
   emphasis: string;
   text: ReactNode;
 }) {
+  const reveal = useReveal<HTMLElement>(0.18);
   return (
-    <header className="section-intro">
+    <header ref={reveal} className="section-intro reveal">
       <p className="eyebrow">
         <span className="eyebrow-index">{index}</span> {label}
       </p>
@@ -750,17 +753,30 @@ function Journey() {
           }
         />
         <div className="timeline">
+          <div className="timeline-axis" aria-hidden="true">
+            <span>2022</span>
+            <span>agora</span>
+          </div>
           {TIMELINE.map(([period, role, org, description], index) => (
-            <div className="timeline-item" key={`${period}-${role}`}>
+            <article
+              className={`timeline-item ${index % 2 ? "is-offset" : ""}`}
+              key={`${period}-${role}`}
+            >
               <span className="timeline-dot" />
-              <p className="timeline-period">{period}</p>
-              <div>
+              <div className="timeline-period">
+                <span>{period}</span>
+                <small>{index === 0 ? "em andamento" : "experiência"}</small>
+              </div>
+              <div className="timeline-card">
+                <div className="timeline-card-top">
+                  <span className="timeline-number">0{index + 1}</span>
+                  <span className="timeline-marker">{index === 0 ? "agora" : "arquivo"}</span>
+                </div>
                 <h3>{role}</h3>
                 <p className="timeline-org">{org}</p>
                 <p className="timeline-description">{description}</p>
               </div>
-              <span className="timeline-number">0{index + 1}</span>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -930,12 +946,27 @@ function WorkModal({
 }) {
   const [mediaIndex, setMediaIndex] = useState(0);
   useEffect(() => setMediaIndex(0), [work?.id]);
+  const isCarousel = work?.id === CAROUSEL.id;
   useEffect(() => {
     if (!work) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
-      if (event.key === "ArrowRight") onNavigate(1);
-      if (event.key === "ArrowLeft") onNavigate(-1);
+      if (event.key === "ArrowRight") {
+        if (isCarousel) {
+          setMediaIndex((currentIndex) => (currentIndex + 1) % work.media.length);
+        } else {
+          onNavigate(1);
+        }
+      }
+      if (event.key === "ArrowLeft") {
+        if (isCarousel) {
+          setMediaIndex(
+            (currentIndex) => (currentIndex - 1 + work.media.length) % work.media.length,
+          );
+        } else {
+          onNavigate(-1);
+        }
+      }
     };
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -944,10 +975,14 @@ function WorkModal({
       document.body.style.overflow = previous;
       document.removeEventListener("keydown", onKey);
     };
-  }, [onClose, onNavigate, work]);
+  }, [isCarousel, onClose, onNavigate, work]);
   if (!work) return null;
-  const isCarousel = work.id === CAROUSEL.id;
   const current = work.media[mediaIndex] ?? work.media[0];
+  const moveCarousel = (direction: number) => {
+    setMediaIndex(
+      (currentIndex) => (currentIndex + direction + work.media.length) % work.media.length,
+    );
+  };
   return (
     <div className="work-modal" role="dialog" aria-modal="true" onClick={onClose}>
       <div className="work-modal-top">
@@ -963,10 +998,53 @@ function WorkModal({
         onClick={(event) => event.stopPropagation()}
       >
         {isCarousel ? (
-          <div className="modal-carousel">
-            {work.media.map((item) => (
-              <img key={item.src} src={item.src} alt={`${work.title} — ${item.label}`} />
-            ))}
+          <div className="modal-feed-card">
+            <div className="modal-feed-header">
+              <span className="feed-avatar" aria-hidden="true">
+                <i />
+              </span>
+              <span className="feed-account">
+                <strong>@educoom</strong>
+                <small>jornalismo & publicidade</small>
+              </span>
+              <span className="feed-position">
+                {String(mediaIndex + 1).padStart(2, "0")} /{" "}
+                {String(work.media.length).padStart(2, "0")}
+              </span>
+            </div>
+            <div className="modal-feed-visual">
+              <img src={current.src} alt={`${work.title} — ${current.label}`} />
+              <button
+                className="modal-carousel-arrow modal-carousel-prev"
+                type="button"
+                onClick={() => moveCarousel(-1)}
+                aria-label="Card anterior"
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <button
+                className="modal-carousel-arrow modal-carousel-next"
+                type="button"
+                onClick={() => moveCarousel(1)}
+                aria-label="Próximo card"
+              >
+                <ArrowRight size={18} />
+              </button>
+            </div>
+            <div className="modal-feed-footer">
+              <div className="feed-dots" aria-label="Navegação do carrossel">
+                {work.media.map((item, itemIndex) => (
+                  <button
+                    className={itemIndex === mediaIndex ? "is-active" : ""}
+                    type="button"
+                    key={item.src}
+                    onClick={() => setMediaIndex(itemIndex)}
+                    aria-label={`Abrir card ${itemIndex + 1}`}
+                  />
+                ))}
+              </div>
+              <span>deslize para continuar</span>
+            </div>
           </div>
         ) : (
           <div className={`modal-media modal-${work.ratio}`}>
