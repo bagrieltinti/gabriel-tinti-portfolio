@@ -1082,10 +1082,10 @@ h3 em {
   padding-top: 2px;
 }
 .about-copy h2 {
-  max-width: 780px;
-  margin: 28px 0 50px;
-  font: 400 clamp(43px, 5.5vw, 82px)/0.88 var(--display);
-  letter-spacing: -0.07em;
+  max-width: 920px;
+  margin: 28px 0 42px;
+  font: 400 clamp(40px, 4.8vw, 72px)/0.94 var(--display);
+  letter-spacing: -0.055em;
 }
 .about-detail {
   display: grid;
@@ -1138,15 +1138,16 @@ h3 em {
   display: grid;
   gap: 17px;
   padding: 17px 18px 16px;
-  background: var(--ink);
-  color: var(--cream);
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
   transition:
     background 0.25s ease,
     transform 0.25s ease;
 }
 .about-agency-label,
 .about-agency-caption {
-  color: rgba(242, 239, 232, 0.62);
+  color: var(--ink-soft);
 }
 .about-agency-row {
   display: flex;
@@ -1158,11 +1159,13 @@ h3 em {
   display: block;
   width: 126px;
   height: 36px;
+  padding: 5px 7px;
   object-fit: contain;
   object-position: left center;
+  background: var(--ink);
 }
 .about-agency:hover {
-  background: var(--signal);
+  background: var(--paper-deep);
   transform: translateY(-4px);
 }
 
@@ -2040,7 +2043,7 @@ h3 em {
   }
   .about-copy h2 {
     margin-top: 24px;
-    font-size: 51px;
+    font-size: clamp(39px, 12vw, 51px);
   }
   .about-detail {
     grid-template-columns: 1fr;

@@ -820,8 +820,7 @@ function About() {
           <span className="eyebrow-index">06</span> Sobre
         </p>
         <h2>
-          A comunicação precisa funcionar antes de chamar atenção.{" "}
-          <em>Eu organizo mensagem, formato e entrega.</em>
+          Antes de chamar atenção, <em>precisa funcionar.</em>
         </h2>
         <div className="about-detail">
           <p className="about-description">
